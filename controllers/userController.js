@@ -1,0 +1,98 @@
+const userService = require("../service/userService");
+const { User } = require("../models/user_models");
+
+class UserController {
+    async registration(req, res, next) {
+        try {
+            const { email, password } = req.body;
+            const userData = await userService.registration(email, password);
+            res.cookie("refreshToken", userData.refreshToken, {
+                maxAge: 172800000,
+                httpOnly: true,
+            });
+            return res.json(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
+    // 172800000
+    async login(req, res, next) {
+        try {
+            const { email, password } = req.body;
+            const userData = await userService.login(email, password);
+            res.cookie("refreshToken", userData.refreshToken, {
+                maxAge: 172800000,
+                httpOnly: true,
+            });
+            return res.json(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
+    async logout(req, res, next) {
+        try {
+            const { refreshToken } = req.cookies;
+            console.log(refreshToken);
+            const token = await userService.logout(refreshToken);
+            res.clearCookie("refreshToken");
+            return res.json(`Here is your token: ${token}`);
+        } catch (e) {
+            next(`Something goes wrong ${e}`);
+        }
+    }
+    // async activate(req, res, next) {
+    //     try {
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // }
+    async refresh(req, res, next) {
+        try {
+            const { refreshToken } = req.cookies;
+            const userData = await userService.refresh(refreshToken);
+            res.cookie("refreshToken", userData.refreshToken, {
+                maxAge: 172800000,
+                httpOnly: true,
+            });
+            return res.json(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
+    async getAll(req, res, next) {
+        try {
+            // res.json(["1234", "123123"]);
+            const users = await userService.getAllUsers();
+            return res.json(users);
+        } catch (e) {
+            next(e);
+        }
+    }
+    async getOne(req, res, next) {
+        try {
+        } catch (e) {
+            next(e);
+        }
+    }
+    async deleteOne(req, res, next) {
+        try {
+            const { id } = req.params;
+            await User.destroy({ where: { id } });
+            return res.json({ message: "Deleted" });
+        } catch (e) {
+            next(e);
+        }
+    }
+    async putOne(req, res, next) {
+        try {
+        } catch (e) {
+            next(e);
+        }
+    }
+}
+
+module.exports = new UserController();
+
+
+
+// jopa

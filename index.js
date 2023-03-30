@@ -35,3 +35,9 @@ const start = async () => {
 };
 
 start();
+
+
+
+function jopa (a, b){
+    return a, b 
+}

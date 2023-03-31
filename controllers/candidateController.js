@@ -27,9 +27,9 @@ class CandidateController {
     }
     async updateOne(req, res, next) {
         try {
-            const candidateId = req.params.id
+            const {id} = req.params
             const {name, surname, client, is_paid, userId} = req.body
-            const candidate = await Candidate.findByPk(candidateId)
+            const candidate = await Candidate.findByPk(id)
             if (candidate) {
                 candidate.name = name,
                 candidate.surname = surname,
@@ -47,7 +47,12 @@ class CandidateController {
     }
     async deleteOne(req, res, next) {
         try {
-        } catch (e) {}
+            const {id} = req.params
+            await Candidate.destroy({where: {id}})
+            return res.json({message: "Candidate deleted"})
+        } catch (e) {
+            res.json(e.message)
+        }
     }
 }
 

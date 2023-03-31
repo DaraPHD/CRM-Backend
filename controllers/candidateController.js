@@ -19,7 +19,14 @@ class CandidateController {
     }
     async getOne(req, res, next) {
         try {
-        } catch (e) {}
+            const {id} = req.params
+            const candidate = await Candidate.findOne({
+                where: {id}
+            })
+            return res.json(candidate)
+        } catch (e) {
+            res.json(e.message)
+        }
     }
     async getAll(req, res, next) {
         try {

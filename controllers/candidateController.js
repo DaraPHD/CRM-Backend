@@ -14,7 +14,7 @@ class CandidateController {
             })
             return res.json(candidate)
         } catch (e) {
-            res.json(e.message)
+            return res.json(e.message)
         }
     }
     async getOne(req, res, next) {
@@ -25,12 +25,20 @@ class CandidateController {
             })
             return res.json(candidate)
         } catch (e) {
-            res.json(e.message)
+            return res.json(e.message)
         }
     }
     async getAll(req, res, next) {
         try {
-        } catch (e) {}
+            const {userId} = req.query
+            const candidates = await Candidate.findAll({
+                where: {userId}
+            })
+            
+            return res.json(candidates)
+        } catch (e) {
+            return res.json(e.message)
+        }
     }
     async updateOne(req, res, next) {
         try {
@@ -44,12 +52,12 @@ class CandidateController {
                 candidate.is_paid = is_paid,
                 candidate.userId = userId
                 await candidate.save()
-                res.json(candidate)
+                return res.json(candidate)
             } else {
-                res.status(404).send('User not found')  // change to custom middleware
+                return res.status(404).send('User not found')  // change to custom middleware
             }
         } catch (e) {
-            res.json(e.message)
+            return res.json(e.message)
         }
     }
     async deleteOne(req, res, next) {

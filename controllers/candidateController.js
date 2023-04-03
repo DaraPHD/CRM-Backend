@@ -4,13 +4,14 @@ const { Candidate } = require("../models/user_models");
 class CandidateController {
     async create(req, res, next) {
         try {
-            const {name, surname, client, is_paid, userId} = req.body
+            const {name, surname, client, is_paid, userId, columnId} = req.body
             const candidate = await Candidate.create({
                     name,
                     surname,
                     client,
                     is_paid,
-                    userId
+                    userId,
+                    columnId
             })
             return res.json(candidate)
         } catch (e) {
@@ -63,8 +64,8 @@ class CandidateController {
     async deleteOne(req, res, next) {
         try {
             const {id} = req.params
-            await Candidate.destroy({where: {id}})
-            return res.json({message: "Candidate deleted"})
+            const candidate = await Candidate.destroy({where: {id}})
+            return res.json({message: `${candidate} deleted`})
         } catch (e) {
             res.json(e.message)
         }

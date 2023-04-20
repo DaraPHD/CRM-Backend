@@ -7,7 +7,7 @@ const UserDto = require("../dtos/userDto");
 const ApiError = require("../error/apiError");
 
 class UserService {
-    async registration(email, password) {
+    async registration(email, password, name, surname, position) {
         const candidate = await User.findOne({ where: { email } });
         if (candidate) {
             throw ApiError.BadRequest(
@@ -20,6 +20,9 @@ class UserService {
         const user = await User.create({
             email,
             password: hashPassword,
+            name,
+            surname,
+            position,
             activationLink,
         });
 

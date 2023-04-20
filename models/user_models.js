@@ -83,7 +83,7 @@ Achievement.belongsToMany(User, {
 
 
 // console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
-// User.sync({ater: true});
+// User.sync({alter: true});
 // Candidate.sync({ alter: true });
 // Commentary.sync({ alter: true });
 // Column.sync({ alter: true });

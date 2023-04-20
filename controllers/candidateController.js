@@ -31,11 +31,7 @@ class CandidateController {
     }
     async getAll(req, res, next) {
         try {
-            const {userId} = req.query
-            const candidates = await Candidate.findAll({
-                where: {userId}
-            })
-            
+            const candidates = await Candidate.findAll()
             return res.json(candidates)
         } catch (e) {
             return res.json(e.message)

@@ -85,8 +85,22 @@ class UserController {
     }
     async putOne(req, res, next) {
         try {
+            const {id} = req.params
+            const {name, surname, position, avatar,role} = req.body
+            const user = await User.findByPk(id)
+            if (user) {
+                user.name = name,
+                user.surname = surname,
+                user.position = position,
+                user.avatar = avatar,
+                user.role = role
+                await user.save()
+                return res.json(user)
+            } else {
+                return res.status(404).send('User not Found')
+            }
         } catch (e) {
-            next(e);
+            return res.json(e.message)
         }
     }
 }

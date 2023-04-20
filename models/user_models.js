@@ -9,7 +9,7 @@ const User = sequelize.define("user", {
     avatar: { type: DataTypes.STRING, allowNull: true },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
-    role: { type: DataTypes.STRING, defaultValue: "USER" },
+    role: { type: DataTypes.ENUM, values: ['SuperUser', 'Admin', 'TeamLead', 'User'], defaultValue: 'User', allowNull: false },
     activationLink: { type: DataTypes.STRING },
     isActivated: { type: DataTypes.STRING },
     // status: { type: DataTypes.BOOLEAN, defaultValue: true },
@@ -81,7 +81,9 @@ Achievement.belongsToMany(User, {
     through: UserAchievement,
 });
 
-// User.sync({ alter: true });
+
+// console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
+// User.sync({ater: true});
 // Candidate.sync({ alter: true });
 // Commentary.sync({ alter: true });
 // Column.sync({ alter: true });

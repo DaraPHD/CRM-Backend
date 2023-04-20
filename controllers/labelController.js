@@ -45,7 +45,7 @@ class LabelController {
                 await label.save()
                 return res.json(label)
             } else {
-                return res.staus(404).send('Label not found')
+                return res.status(404).send('Label not found')
             }
         } catch (e) {
             return res.json(e.message)

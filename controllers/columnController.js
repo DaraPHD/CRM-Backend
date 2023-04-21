@@ -1,4 +1,4 @@
-const { Column } = require("../models/user_models");
+const { Column, Candidate } = require("../models/user_models");
 
 
 class ColumnController {
@@ -54,9 +54,10 @@ class ColumnController {
             const candidate = await Column.destroy({where: {id}})
             return res.json({message: `${candidate} deleted`})
         } catch (e) {
-            res.json(e.message)
+             return res.json(e.message)
         }
     }
+
 }
 
 module.exports = new ColumnController();

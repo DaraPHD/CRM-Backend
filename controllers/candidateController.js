@@ -1,5 +1,4 @@
-const { Candidate } = require("../models/user_models");
-
+const { Candidate, Column } = require("../models/user_models");
 
 class CandidateController {
     async create(req, res, next) {
@@ -64,6 +63,18 @@ class CandidateController {
             return res.json({message: `${candidate} deleted`})
         } catch (e) {
             res.json(e.message)
+        }
+    }
+    async getCandidateFromColumn(req, res, next) {
+        try {
+            const columnId = req.params.columnId
+            const column = await Column.findByPk(columnId)
+            const candidates = await Candidate.findAll({
+                where: { columnId } 
+            })
+            return res.json({candidates})
+        } catch (e) {
+            return res.json(e.message)
         }
     }
 }

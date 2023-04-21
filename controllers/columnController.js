@@ -6,7 +6,8 @@ class ColumnController {
         try {
             const {name} = req.body
             const column = await Column.create({
-                name
+                name,
+                boardId: 1,
             })
             return res.json(column)
         } catch (e) {

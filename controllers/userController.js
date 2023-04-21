@@ -1,5 +1,8 @@
 const userService = require("../service/userService");
 const { User } = require("../models/user_models");
+const uuid = require('uuid')
+const path = require('path')
+
 
 class UserController {
     async registration(req, res, next) {
@@ -86,13 +89,17 @@ class UserController {
     async putOne(req, res, next) {
         try {
             const {id} = req.params
-            const {name, surname, position, avatar,role} = req.body
+            const {name, surname, position, role} = req.body
+            const {avatar} = req.files
+            let fileName = uuid.v4() + '.jpg'
+            avatar.mv(path.resolve(__dirname, '..', 'static', fileName))
+            
             const user = await User.findByPk(id)
             if (user) {
                 user.name = name,
                 user.surname = surname,
                 user.position = position,
-                user.avatar = avatar,
+                user.avatar = fileName,
                 user.role = role
                 await user.save()
                 return res.json(user)
@@ -103,6 +110,8 @@ class UserController {
             return res.json(e.message)
         }
     }
+
+
 }
 
 module.exports = new UserController();

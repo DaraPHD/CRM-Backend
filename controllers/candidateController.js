@@ -71,11 +71,15 @@ class CandidateController {
             const candidates = await Candidate.findAll({
                 where: { columnId } 
             })
-            return res.json({candidates})
+            const column = await Column.findAll({
+                where: { id: columnId}
+            })
+            return res.json({candidates, column})
         } catch (e) {
             return res.json(e.message)
         }
     }
+
 }
 
 module.exports = new CandidateController();

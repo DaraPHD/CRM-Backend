@@ -35,10 +35,11 @@ class ColumnController {
     async updateOne(req, res, next) {
         try {
             const {id} = req.params
-            const {name} = req.body
+            const {name, boardId} = req.body
             const column = await Column.findByPk(id)
             if (column) {
                 column.name = name
+                column.boardId = boardId
                 await column.save()
                 return res.json(column)
             } else {

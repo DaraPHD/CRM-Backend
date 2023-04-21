@@ -58,6 +58,11 @@ const Commentary = sequelize.define("commentary", {
     parent: { type: DataTypes.INTEGER },
 });
 
+const Board = sequelize.define("board", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: { type: DataTypes.STRING, allowNull: true, unique: true},
+})
+
 User.hasOne(Token);
 Token.belongsTo(User);
 
@@ -73,6 +78,9 @@ Label.belongsTo(Candidate);
 Column.hasMany(Candidate, { as: "candidate" });
 Candidate.belongsTo(Column);
 
+Board.hasMany(Column, { as: "column"});
+Column.belongsTo(Board);
+
 User.belongsToMany(Achievement, {
     through: UserAchievement,
 });
@@ -87,6 +95,7 @@ Achievement.belongsToMany(User, {
 // Token.sync({alter: true})
 // Candidate.sync({ alter: true });
 // Commentary.sync({ alter: true });
+// Board.sync({ alter: true});
 // Column.sync({ alter: true });
 // Label.sync({ alter: true });
 
@@ -99,4 +108,5 @@ module.exports = {
     Achievement,
     UserAchievement,
     Token,
+    Board,
 };

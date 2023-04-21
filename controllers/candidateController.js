@@ -67,8 +67,7 @@ class CandidateController {
     }
     async getCandidateFromColumn(req, res, next) {
         try {
-            const columnId = req.params.columnId
-            const column = await Column.findByPk(columnId)
+            const { columnId } = req.params
             const candidates = await Candidate.findAll({
                 where: { columnId } 
             })

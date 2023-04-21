@@ -1,4 +1,4 @@
-const { Column, Candidate } = require("../models/user_models");
+const { Column } = require("../models/user_models");
 
 
 class ColumnController {

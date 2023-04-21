@@ -24,6 +24,14 @@ class ColumnController {
             return res.json(e.message)
         }
     }
+    async getAll(req, res, next) {
+        try {
+            const columns = await Column.findAll()
+            return res.json(columns)
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
     async updateOne(req, res, next) {
         try {
             const {id} = req.params

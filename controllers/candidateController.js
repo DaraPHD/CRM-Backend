@@ -36,6 +36,7 @@ class CandidateController {
             return res.json(e.message)
         }
     }
+    
     async updateOne(req, res, next) {
         try {
             const {id} = req.params

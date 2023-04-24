@@ -44,7 +44,7 @@ class BoardController {
 
     async searchCandidate(req, res, next) {
         try {
-            const { name, surname  } = req.params
+            const { name, surname  } = req.query
             const where = {}
             if (name && surname) {
                 where.name = { [Op.iLike]: `%${name}%` }
@@ -74,6 +74,27 @@ class BoardController {
         } catch (e) {
             return res.json(e.message)
         }
+    }
+    async updateCandidates (req, res, next) {
+    //     try {
+    //         const {columnId} = req.params
+    //         const {name, surname, client, is_paid} = req.body
+    //     const candidates = await Candidate.update(
+    //         {name,
+    //         surname,
+    //         client,
+    //         is_paid,
+    //         columnId
+    //     },
+    //     {where: { columnId },
+    // returning: true
+    // }
+    //     )
+    //     return res.json(candidates[1])
+    //     } catch (e) {
+    //     return res.json(e.message)
+    //     }
+        
     }
 
 }

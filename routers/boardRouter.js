@@ -4,6 +4,7 @@ const boardController = require('../controllers/boardController')
 
 router.post('/', boardController.create)
 router.get('/:id', boardController.getAll)
-router.get('/search/:name/:surname', boardController.searchCandidate)
+router.post('/search', boardController.searchCandidate)
+router.post('/:columnId/candidates', boardController.updateCandidates)
 
 module.exports = router

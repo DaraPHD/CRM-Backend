@@ -39,14 +39,15 @@ class CandidateController {
     async updateOne(req, res, next) {
         try {
             const {id} = req.params
-            const {name, surname, client, is_paid, userId} = req.body
+            const {name, surname, client, is_paid, userId, columnId} = req.body
             const candidate = await Candidate.findByPk(id)
             if (candidate) {
                 candidate.name = name,
                 candidate.surname = surname,
                 candidate.client = client,
                 candidate.is_paid = is_paid,
-                candidate.userId = userId
+                candidate.userId = userId,
+                candidate.columnId = columnId
                 await candidate.save()
                 return res.json(candidate)
             } else {

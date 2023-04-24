@@ -16,7 +16,7 @@ class BoardController {
         try {
             const {id} = req.params
             const board = await Board.findOne({
-                where: { id},
+                where: { id },
                 include: [
                     {
                         model: Column,
@@ -29,6 +29,11 @@ class BoardController {
                         ],
                     },
                 ],
+                order: [
+                    ["id", "ASC"],
+                    [Column, "id", "ASC"],
+                    [Column, Candidate, "id", "ASC"],
+                ]
             });
             return res.json({board})
         } catch (e) {

@@ -35,6 +35,7 @@ const UserAchievement = sequelize.define("user_achievement", {
 
 const Candidate = sequelize.define("candidate", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    title: { type: DataTypes.STRING(1000), allowNull: false },
     fullname: { type: DataTypes.STRING, allowNull: true },
     client: { type: DataTypes.STRING, allowNull: true },
     is_paid: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -69,6 +70,11 @@ const UserCandidate = sequelize.define("user_candidate", {
 
 const CandidateLabel = sequelize.define("candidate_label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+})
+
+const Color = sequelize.define("color", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    color_code: { type: DataTypes.STRING, allowNull: false }
 })
 
 User.hasOne(Token);
@@ -108,6 +114,7 @@ Achievement.belongsToMany(User, {
 });
 
 
+// Color.sync({force: true})
 // console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
 // User.sync({alter: true});
 // Token.sync({alter: true})
@@ -128,4 +135,7 @@ module.exports = {
     UserAchievement,
     Token,
     Board,
+    Color,
+    UserCandidate,
+    CandidateLabel
 };

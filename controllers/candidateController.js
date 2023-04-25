@@ -3,7 +3,7 @@ const { Candidate, Column } = require("../models/user_models");
 class CandidateController {
     async create(req, res, next) {
         try {
-            const {fullname, client, is_paid, userId, columnId, recruiter_name} = req.body
+            const {fullname, client, is_paid, userId, columnId, recruiter_name, title} = req.body
             const candidate = await Candidate.create({
                     fullname,
                     client,
@@ -11,6 +11,7 @@ class CandidateController {
                     userId,
                     columnId,
                     recruiter_name,
+                    title,
             })
             return res.json(candidate)
         } catch (e) {

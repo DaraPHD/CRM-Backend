@@ -38,6 +38,7 @@ const Candidate = sequelize.define("candidate", {
     fullname: { type: DataTypes.STRING, allowNull: false },
     client: { type: DataTypes.STRING, allowNull: false },
     is_paid: { type: DataTypes.BOOLEAN, defaultValue: false },
+    recruiter_name: { type: DataTypes.STRING(100), allowNull: false}
 });
 
 const Column = sequelize.define("column", {

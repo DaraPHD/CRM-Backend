@@ -44,33 +44,52 @@ class BoardController {
 
     async searchCandidate(req, res, next) {
         try {
-            const { name, surname  } = req.query
+            const { fullname } = req.query
             const where = {}
-            if (name && surname) {
-                where.name = { [Op.iLike]: `%${name}%` }
-                where.surname = { [Op.iLike]: `%${surname}%` }
-            } else if (name) {
-                where.name = { [Op.iLike]: `%${name}%` }
-            } else if (surname) {
-                where.surname = { [Op.iLike]: `%${surname}%` }
-            }
-            const boards = await Board.findAll({
-               include: [
-                {
-                    model: Column,
-                    as: "column",
-                    include: [{ model: Candidate, 
-                        as: "candidate", 
-                        where }]
-                }
-               ],
-               order: [
-                ["id", "ASC"],
-                [Column, "id", "ASC"],
-               ]
-            })
-           
-            return res.json({boards})
+            let boards
+            if (fullname) {
+                where.fullname = { [Op.iLike]: `%${fullname}%` }
+                boards = await Board.findAll({
+                    include: [
+                     {
+                         model: Column,
+                         as: "column",
+                         include: [{ model: Candidate, 
+                             as: "candidate", 
+                             where }]
+                     }
+                    ],
+                    order: [
+                     ["id", "ASC"],
+                     [Column, "id", "ASC"],
+                    ]
+                 })
+                
+                 return res.json({boards})
+            } else if (!fullname) {
+                boards = await Board.findOne({
+                    where: { id: 1 },
+                    include: [
+                        {
+                            model: Column,
+                            as: "column",
+                            include: [
+                                {
+                                    model: Candidate,
+                                    as: "candidate",
+                                },
+                            ],
+                        },
+                    ],
+                    order: [
+                        ["id", "ASC"],
+                        [Column, "id", "ASC"],
+                        // [Column, Candidate, "id", "ASC"],
+                    ]
+                });
+                return res.json({boards})
+            } 
+            
         } catch (e) {
             return res.json(e.message)
         }

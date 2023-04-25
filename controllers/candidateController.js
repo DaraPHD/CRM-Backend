@@ -3,10 +3,9 @@ const { Candidate, Column } = require("../models/user_models");
 class CandidateController {
     async create(req, res, next) {
         try {
-            const {name, surname, client, is_paid, userId, columnId} = req.body
+            const {fullname, client, is_paid, userId, columnId} = req.body
             const candidate = await Candidate.create({
-                    name,
-                    surname,
+                    fullname,
                     client,
                     is_paid,
                     userId,
@@ -40,11 +39,10 @@ class CandidateController {
     async updateOne(req, res, next) {
         try {
             const {id} = req.params
-            const {name, surname, client, is_paid, userId, columnId} = req.body
+            const {fullname, client, is_paid, userId, columnId} = req.body
             const candidate = await Candidate.findByPk(id)
             if (candidate) {
-                candidate.name = name,
-                candidate.surname = surname,
+                candidate.fullname = fullname,
                 candidate.client = client,
                 candidate.is_paid = is_paid,
                 candidate.userId = userId,

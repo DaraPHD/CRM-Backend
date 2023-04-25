@@ -20,6 +20,31 @@ class ColorController {
             return res.json(e.message)
         }
     }
+    async updateOne(req, res, next) {
+        try {
+            const {id} = req.params
+            const {color_code} = req.body
+            const color = await Color.findByPk(id)
+            if (color) {
+                color.color_code = color_code,
+                await color.save()
+                return res.json(color)
+            } else {
+                return res.status(404).send('Label not found')
+            }
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
+    async deleteOne(req, res, next) {
+        try {
+            const {id} = req.params
+            const color = await Color.destroy({where: {id}})
+            return res.json({message: `${color} deleted`})
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
 }
 
 module.exports = new ColorController()

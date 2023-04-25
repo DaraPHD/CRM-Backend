@@ -63,23 +63,41 @@ const Board = sequelize.define("board", {
     name: { type: DataTypes.STRING, allowNull: true, unique: true},
 })
 
+const UserCandidate = sequelize.define("user_candidate", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+})
+
+const CandidateLabel = sequelize.define("candidate_label", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+})
+
 User.hasOne(Token);
 Token.belongsTo(User);
 
 User.hasMany(Commentary, { as: "commentary" });
 Commentary.belongsTo(User);
 
-User.hasMany(Candidate, { as: "candidate" });
-Candidate.belongsTo(User);
-
-Candidate.hasMany(Label, { as: "label" });
-Label.belongsTo(Candidate);
-
 Column.hasMany(Candidate, { as: "candidate" });
 Candidate.belongsTo(Column);
 
 Board.hasMany(Column, { as: "column"});
 Column.belongsTo(Board);
+
+Label.belongsToMany(Candidate, {
+    through: CandidateLabel, as: "candidate"
+})
+
+Candidate.belongsToMany(Label, {
+    through: CandidateLabel, as: "label"
+})
+
+User.belongsToMany(Candidate, 
+    { through: UserCandidate, as: "candidate" 
+});
+
+Candidate.belongsToMany(User, 
+    { through: UserCandidate, as: "user" 
+})
 
 User.belongsToMany(Achievement, {
     through: UserAchievement,
@@ -94,6 +112,7 @@ Achievement.belongsToMany(User, {
 // User.sync({alter: true});
 // Token.sync({alter: true})
 // Candidate.sync({ alter: true });
+// UserCandidate.sync()
 // Commentary.sync({ alter: true });
 // Board.sync({ alter: true});
 // Column.sync({ alter: true });

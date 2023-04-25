@@ -12,6 +12,14 @@ class ColorController {
             return res.json(e.message)
         }
     }
+    async getAll(req, res, next) {
+        try {
+            const colors = await Color.findAll()
+            return res.json(colors)
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
 }
 
 module.exports = new ColorController()

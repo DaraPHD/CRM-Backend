@@ -66,7 +66,7 @@ class BoardController {
                  })
                 
                  return res.json({boards})
-            } else  {
+            } else {
                 boards = await Board.findOne({
                     where: { id: 1 },
                     include: [

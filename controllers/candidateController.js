@@ -9,7 +9,8 @@ class CandidateController {
                     client,
                     is_paid,
                     userId,
-                    columnId
+                    columnId,
+                    recruiter_name,
             })
             return res.json(candidate)
         } catch (e) {

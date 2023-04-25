@@ -22,9 +22,6 @@ app.use(express.static(path.resolve(__dirname, "static")));
 app.use("/api", router);
 
 app.use(errorMiddleware);
-// app.get("/", (req, res) => {
-//     res.status(200).json({ message: "Success" });
-// });
 
 const start = async () => {
     try {

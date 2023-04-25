@@ -3,7 +3,7 @@ const { Candidate, Column } = require("../models/user_models");
 class CandidateController {
     async create(req, res, next) {
         try {
-            const {fullname, client, is_paid, userId, columnId} = req.body
+            const {fullname, client, is_paid, userId, columnId, recruiter_name} = req.body
             const candidate = await Candidate.create({
                     fullname,
                     client,
@@ -40,14 +40,15 @@ class CandidateController {
     async updateOne(req, res, next) {
         try {
             const {id} = req.params
-            const {fullname, client, is_paid, userId, columnId} = req.body
+            const {fullname, client, is_paid, userId, columnId, recruiter_name} = req.body
             const candidate = await Candidate.findByPk(id)
             if (candidate) {
                 candidate.fullname = fullname,
                 candidate.client = client,
                 candidate.is_paid = is_paid,
                 candidate.userId = userId,
-                candidate.columnId = columnId
+                candidate.columnId = columnId,
+                candidate.recruiter_name = recruiter_name
                 await candidate.save()
                 return res.json(candidate)
             } else {

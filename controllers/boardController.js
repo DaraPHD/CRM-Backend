@@ -49,7 +49,8 @@ class BoardController {
             let boards
             if (fullname) {
                 where.fullname = { [Op.iLike]: `%${fullname}%` }
-                boards = await Board.findAll({
+                boards = await Board.findOne({
+                    where: {id: 1},
                     include: [
                      {
                          model: Column,
@@ -87,7 +88,7 @@ class BoardController {
                         // [Column, Candidate, "id", "ASC"],
                     ]
                 });
-                return res.json({boards})
+                return res.json(boards)
             } 
             
         } catch (e) {

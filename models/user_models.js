@@ -35,10 +35,10 @@ const UserAchievement = sequelize.define("user_achievement", {
 
 const Candidate = sequelize.define("candidate", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    fullname: { type: DataTypes.STRING, allowNull: false },
-    client: { type: DataTypes.STRING, allowNull: false },
+    fullname: { type: DataTypes.STRING, allowNull: true },
+    client: { type: DataTypes.STRING, allowNull: true },
     is_paid: { type: DataTypes.BOOLEAN, defaultValue: false },
-    recruiter_name: { type: DataTypes.STRING(100), allowNull: false}
+    recruiter_name: { type: DataTypes.STRING(100), allowNull: true}
 });
 
 const Column = sequelize.define("column", {

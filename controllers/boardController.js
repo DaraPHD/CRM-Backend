@@ -36,7 +36,7 @@ class BoardController {
                     // [Column, Candidate, "id", "ASC"],
                 ]
             });
-            return res.json({board})
+            return res.json(board)
         } catch (e) {
             return res.json(e.message)
         }
@@ -66,7 +66,7 @@ class BoardController {
                     ]
                  })
                 
-                 return res.json({boards})
+                 return res.json(boards)
             } else {
                 boards = await Board.findOne({
                     where: { id: 1 },

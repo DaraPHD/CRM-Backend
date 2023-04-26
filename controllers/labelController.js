@@ -1,13 +1,14 @@
-const { Label } = require("../models/user_models")
+const { Label, CandidateLabel } = require("../models/user_models")
 
 class LabelController {
     async create(req, res, next) {
         try {
-            const { name, color } = req.body
+            const { name, color, candidateId } = req.body
             const label = await Label.create({
                 name,
                 color,
             })
+            await CandidateLabel.create({ candidateId, labelId: label.id })
             return res.json(label)
         } catch (e) {
             return res.json(e.message)

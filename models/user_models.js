@@ -58,7 +58,7 @@ const Column = sequelize.define("column", {
 
 const Label = sequelize.define("label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: true },
     color: { type: DataTypes.STRING, allowNull: false },
 })
 
@@ -133,7 +133,7 @@ Achievement.belongsToMany(User, {
 // Commentary.sync({ alter: true });
 // Board.sync({ alter: true});
 // Column.sync({ alter: true });
-// Label.sync({ alter: true });
+// Label.sync({ alter: true })
 
 module.exports = {
     User,

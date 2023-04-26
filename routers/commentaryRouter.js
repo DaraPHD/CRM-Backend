@@ -5,6 +5,7 @@ const commentaryController = require("../controllers/commentaryController")
 router.post("/", commentaryController.create)
 router.post("/:id/reply", commentaryController.createReply)
 router.get("/:id", commentaryController.getOne)
+router.get("/:id/card", commentaryController.getAllCardCommentary)
 router.put("/:id", commentaryController.updateOne)
 router.delete("/:id", commentaryController.deleteOne)
 

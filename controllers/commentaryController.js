@@ -68,6 +68,17 @@ class CommentaryController {
             return res.json(e.message)
         }
     }
+    async getAllCardCommentary(req, res, next) {
+        try {
+            const { id } = req.params
+            const commentaries = await Commentary.findAll({
+                where: { candidateId: id },
+            })
+            return res.json(commentaries)
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
 }
 
 module.exports = new CommentaryController()

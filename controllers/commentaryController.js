@@ -1,4 +1,4 @@
-const { Commentary } = require("../models/user_models")
+const { Commentary, User } = require("../models/user_models")
 
 class CommentaryController {
     async create(req, res, next) {
@@ -73,6 +73,11 @@ class CommentaryController {
             const { id } = req.params
             const commentaries = await Commentary.findAll({
                 where: { candidateId: id },
+                include: [
+                    {
+                        model: User,
+                    },
+                ],
             })
             return res.json(commentaries)
         } catch (e) {

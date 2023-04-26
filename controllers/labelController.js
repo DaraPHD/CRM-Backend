@@ -3,12 +3,20 @@ const { Label, CandidateLabel } = require("../models/user_models")
 class LabelController {
     async create(req, res, next) {
         try {
-            const { name, color, candidateId } = req.body
+            const { name, color } = req.body
             const label = await Label.create({
                 name,
                 color,
             })
-            await CandidateLabel.create({ candidateId, labelId: label.id })
+            return res.json(label)
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
+    async createCandidateLabel(req, res, next) {
+        try {
+            const { candidateId, labelId } = req.body
+            const label = await CandidateLabel.create({ candidateId, labelId })
             return res.json(label)
         } catch (e) {
             return res.json(e.message)
@@ -57,7 +65,15 @@ class LabelController {
             return res.json(e.message)
         }
     }
-    // async Upda
+    async deleteCandidateLabel(req, res, next) {
+        try {
+            const { id } = req.params
+            const label = await CandidateLabel.destroy({ where: { id } })
+            return res.json(`${label} deleted successfuly`)
+        } catch (e) {
+            return res.json(e.message)
+        }
+    }
 }
 
 module.exports = new LabelController()

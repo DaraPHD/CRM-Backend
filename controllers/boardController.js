@@ -4,7 +4,7 @@ const { Op } = require("sequelize")
 class BoardController {
     async create(req, res, next) {
         try {
-            const {name} = req.body
+            const { name } = req.body
             const board = await Board.create({
                 name,
             })
@@ -15,7 +15,7 @@ class BoardController {
     }
     async getAll(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params
             const board = await Board.findOne({
                 where: { id },
                 include: [
@@ -34,8 +34,8 @@ class BoardController {
                     ["id", "ASC"],
                     [Column, "id", "ASC"],
                     // [Column, Candidate, "id", "ASC"],
-                ]
-            });
+                ],
+            })
             return res.json(board)
         } catch (e) {
             return res.json(e.message)
@@ -50,23 +50,23 @@ class BoardController {
             if (fullname) {
                 where.fullname = { [Op.iLike]: `%${fullname}%` }
                 boards = await Board.findOne({
-                    where: {id: 1},
+                    where: { id: 1 },
                     include: [
-                     {
-                         model: Column,
-                         as: "column",
-                         include: [{ model: Candidate, 
-                             as: "candidate", 
-                             where }]
-                     }
+                        {
+                            model: Column,
+                            as: "column",
+                            include: [
+                                { model: Candidate, as: "candidate", where },
+                            ],
+                        },
                     ],
                     order: [
-                     ["id", "ASC"],
-                     [Column, "id", "ASC"],
-                    ]
-                 })
-                
-                 return res.json(boards)
+                        ["id", "ASC"],
+                        [Column, "id", "ASC"],
+                    ],
+                })
+
+                return res.json(boards)
             } else {
                 boards = await Board.findOne({
                     where: { id: 1 },
@@ -86,37 +86,34 @@ class BoardController {
                         ["id", "ASC"],
                         [Column, "id", "ASC"],
                         // [Column, Candidate, "id", "ASC"],
-                    ]
-                });
+                    ],
+                })
                 return res.json(boards)
-            } 
-            
+            }
         } catch (e) {
             return res.json(e.message)
         }
     }
-    async updateCandidates (req, res, next) {
-    //     try {
-    //         const {columnId} = req.params
-    //         const {name, surname, client, is_paid} = req.body
-    //     const candidates = await Candidate.update(
-    //         {name,
-    //         surname,
-    //         client,
-    //         is_paid,
-    //         columnId
-    //     },
-    //     {where: { columnId },
-    // returning: true
-    // }
-    //     )
-    //     return res.json(candidates[1])
-    //     } catch (e) {
-    //     return res.json(e.message)
-    //     }
-        
+    async updateCandidates(req, res, next) {
+        //     try {
+        //         const {columnId} = req.params
+        //         const {name, surname, client, is_paid} = req.body
+        //     const candidates = await Candidate.update(
+        //         {name,
+        //         surname,
+        //         client,
+        //         is_paid,
+        //         columnId
+        //     },
+        //     {where: { columnId },
+        // returning: true
+        // }
+        //     )
+        //     return res.json(candidates[1])
+        //     } catch (e) {
+        //     return res.json(e.message)
+        //     }
     }
-
 }
 
 module.exports = new BoardController()

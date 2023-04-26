@@ -1,10 +1,8 @@
-const Router = require("express");
-const tokenController = require("../controllers/tokenController");
+const Router = require("express")
+const tokenController = require("../controllers/tokenController")
 
-const router = new Router();
+const router = new Router()
 
-router.delete("/:id", tokenController.deleteOne);
+router.delete("/:id", tokenController.deleteOne)
 
-module.exports = router;
-
-
+module.exports = router

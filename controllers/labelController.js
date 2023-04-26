@@ -1,13 +1,13 @@
-const { Label } = require("../models/user_models");
+const { Label } = require("../models/user_models")
 
 class LabelController {
     async create(req, res, next) {
         try {
-            const {name, color, candidateId} = req.body
+            const { name, color, candidateId } = req.body
             const label = await Label.create({
                 name,
                 color,
-                candidateId
+                candidateId,
             })
             return res.json(label)
         } catch (e) {
@@ -16,9 +16,9 @@ class LabelController {
     }
     async getOne(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params
             const label = await Label.findOne({
-                where: {id}
+                where: { id },
             })
             return res.json(label)
         } catch (e) {
@@ -35,17 +35,17 @@ class LabelController {
     }
     async updateOne(req, res, next) {
         try {
-            const {id} = req.params
-            const {name, color, candidateId} = req.body
+            const { id } = req.params
+            const { name, color, candidateId } = req.body
             const label = await Label.findByPk(id)
             if (label) {
-                label.name = name,
-                label.color = color,
-                label.candidateId = candidateId
+                ;(label.name = name),
+                    (label.color = color),
+                    (label.candidateId = candidateId)
                 await label.save()
                 return res.json(label)
             } else {
-                return res.status(404).send('Label not found')
+                return res.status(404).send("Label not found")
             }
         } catch (e) {
             return res.json(e.message)
@@ -53,13 +53,13 @@ class LabelController {
     }
     async deleteOne(req, res, next) {
         try {
-            const {id} = req.params
-            const label = await Label.destroy({where: {id}})
-            return res.json({message: `${label} deleted`})
+            const { id } = req.params
+            const label = await Label.destroy({ where: { id } })
+            return res.json({ message: `${label} deleted` })
         } catch (e) {
             return res.json(e.message)
         }
     }
 }
 
-module.exports = new LabelController();
+module.exports = new LabelController()

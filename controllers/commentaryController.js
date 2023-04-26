@@ -1,13 +1,13 @@
-const { Commentary } = require("../models/user_models");
+const { Commentary } = require("../models/user_models")
 
 class CommentaryController {
     async create(req, res, next) {
         try {
-            const {content, candidateId, userId} = req.body
+            const { content, candidateId, userId } = req.body
             const commentary = await Commentary.create({
                 content,
                 candidateId,
-                userId
+                userId,
             })
             return res.json(commentary)
         } catch (e) {
@@ -15,26 +15,26 @@ class CommentaryController {
         }
     }
 
-    async createReply (req, res, next) {
+    async createReply(req, res, next) {
         try {
-            const {userId, content, candidateId} = req.body
+            const { userId, content, candidateId } = req.body
             const { id } = req.params
             const reply = await Commentary.create({
                 candidateId,
                 userId,
                 content,
-                commentaryId: id
+                commentaryId: id,
             })
-            return res.json({reply})
+            return res.json({ reply })
         } catch (e) {
-           return res.json(e.message) 
+            return res.json(e.message)
         }
     }
     async getOne(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params
             const commentary = await Commentary.findOne({
-                where: {id}
+                where: { id },
             })
             return res.json(commentary)
         } catch (e) {
@@ -43,17 +43,17 @@ class CommentaryController {
     }
     async updateOne(req, res, next) {
         try {
-            const {id} = req.params
-            const {content, candidateId, userId} = req.body
+            const { id } = req.params
+            const { content, candidateId, userId } = req.body
             const commentary = await Commentary.findByPk(id)
-            if (commentary){
-                commentary.content = content,
-                commentary.candidateId = candidateId,
-                commentary.userId = userId
+            if (commentary) {
+                ;(commentary.content = content),
+                    (commentary.candidateId = candidateId),
+                    (commentary.userId = userId)
                 await commentary.save()
                 return res.json(commentary)
             } else {
-                return res.status(404).send('Commentary not found')
+                return res.status(404).send("Commentary not found")
             }
         } catch (e) {
             return res.json(e.message)
@@ -61,13 +61,13 @@ class CommentaryController {
     }
     async deleteOne(req, res, next) {
         try {
-            const {id} = req.params
-            const commentary = await Commentary.destroy({where: {id}})
-            return res.json({message: `${commentary} deleted`})
+            const { id } = req.params
+            const commentary = await Commentary.destroy({ where: { id } })
+            return res.json({ message: `${commentary} deleted` })
         } catch (e) {
             return res.json(e.message)
         }
     }
 }
 
-module.exports = new CommentaryController();
+module.exports = new CommentaryController()

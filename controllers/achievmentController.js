@@ -21,4 +21,4 @@ class AchievmentController {
     }
 }
 
-module.exports = new AchievmentController();
+module.exports = new AchievmentController()

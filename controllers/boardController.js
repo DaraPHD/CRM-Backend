@@ -1,4 +1,4 @@
-const { Board, Column, Candidate } = require("../models/user_models")
+const { Board, Column, Candidate, Label } = require("../models/user_models")
 const { Op } = require("sequelize")
 
 class BoardController {
@@ -26,6 +26,12 @@ class BoardController {
                             {
                                 model: Candidate,
                                 as: "candidate",
+                                include: [
+                                    {
+                                        model: Label,
+                                        as: "label",
+                                    },
+                                ],
                             },
                         ],
                     },
@@ -56,7 +62,17 @@ class BoardController {
                             model: Column,
                             as: "column",
                             include: [
-                                { model: Candidate, as: "candidate", where },
+                                {
+                                    model: Candidate,
+                                    as: "candidate",
+                                    where,
+                                    include: [
+                                        {
+                                            model: Label,
+                                            as: "label",
+                                        },
+                                    ],
+                                },
                             ],
                         },
                     ],
@@ -78,6 +94,12 @@ class BoardController {
                                 {
                                     model: Candidate,
                                     as: "candidate",
+                                    include: [
+                                        {
+                                            model: Label,
+                                            as: "label",
+                                        },
+                                    ],
                                 },
                             ],
                         },

@@ -56,7 +56,6 @@ const Label = sequelize.define("label", {
 const Commentary = sequelize.define("commentary", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.TEXT },
-    parent: { type: DataTypes.INTEGER },
 });
 
 const Board = sequelize.define("board", {
@@ -82,6 +81,11 @@ Token.belongsTo(User);
 
 User.hasMany(Commentary, { as: "commentary" });
 Commentary.belongsTo(User);
+
+Candidate.hasMany(Commentary, { as: "commentary" });
+Commentary.belongsTo(Candidate)
+
+Commentary.hasMany(Commentary, { as: "replies" })
 
 Column.hasMany(Candidate, { as: "candidate" });
 Candidate.belongsTo(Column);

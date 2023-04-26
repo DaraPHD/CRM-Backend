@@ -3,15 +3,32 @@ const { Commentary } = require("../models/user_models");
 class CommentaryController {
     async create(req, res, next) {
         try {
-            const {content, parent, userId} = req.body
+            const {content, candidateId, userId} = req.body
             const commentary = await Commentary.create({
                 content,
-                parent,
+                candidateId,
                 userId
             })
             return res.json(commentary)
         } catch (e) {
             return res.json(e.message)
+        }
+    }
+
+    async createReply (req, res, next) {
+        try {
+            const {userId, content, candidateId, commentaryId} = req.body
+            const { id } = req.params
+            const reply = await Commentary.create({
+                candidateId,
+                userId,
+                id,
+                content,
+                commentaryId
+            })
+            return res.json({reply})
+        } catch (e) {
+           return res.json(e.message) 
         }
     }
     async getOne(req, res, next) {
@@ -28,11 +45,11 @@ class CommentaryController {
     async updateOne(req, res, next) {
         try {
             const {id} = req.params
-            const {content, parent, userId} = req.body
+            const {content, candidateId, userId} = req.body
             const commentary = await Commentary.findByPk(id)
             if (commentary){
                 commentary.content = content,
-                commentary.parent = parent,
+                commentary.candidateId = candidateId,
                 commentary.userId = userId
                 await commentary.save()
                 return res.json(commentary)

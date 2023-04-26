@@ -17,14 +17,13 @@ class CommentaryController {
 
     async createReply (req, res, next) {
         try {
-            const {userId, content, candidateId, commentaryId} = req.body
+            const {userId, content, candidateId} = req.body
             const { id } = req.params
             const reply = await Commentary.create({
                 candidateId,
                 userId,
-                id,
                 content,
-                commentaryId
+                commentaryId: id
             })
             return res.json({reply})
         } catch (e) {

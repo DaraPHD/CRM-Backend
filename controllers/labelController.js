@@ -17,6 +17,9 @@ class LabelController {
         try {
             const { candidateId, labelId } = req.body
             const label = await CandidateLabel.create({ candidateId, labelId })
+            // const labels = await CandidateLabel.findAll({
+            //     order: [["id", "ASC"]],
+            // })
             return res.json(label)
         } catch (e) {
             return res.json(e.message)

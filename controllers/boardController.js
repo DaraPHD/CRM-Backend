@@ -1,4 +1,10 @@
-const { Board, Column, Candidate, Label } = require("../models/user_models")
+const {
+    Board,
+    Column,
+    Candidate,
+    Label,
+    CandidateLabel,
+} = require("../models/user_models")
 const { Op } = require("sequelize")
 
 class BoardController {
@@ -39,7 +45,8 @@ class BoardController {
                 order: [
                     ["id", "ASC"],
                     [Column, "id", "ASC"],
-                    // [Column, Candidate, "id", "ASC"],
+                    [Column, Candidate, "id", "ASC"],
+                    [Column, Candidate, Label, "id", "ASC"],
                 ],
             })
             return res.json(board)
@@ -107,7 +114,8 @@ class BoardController {
                     order: [
                         ["id", "ASC"],
                         [Column, "id", "ASC"],
-                        // [Column, Candidate, "id", "ASC"],
+                        [Column, Candidate, "id", "ASC"],
+                        [Column, Candidate, Label, "id", "ASC"],
                     ],
                 })
                 return res.json(boards)

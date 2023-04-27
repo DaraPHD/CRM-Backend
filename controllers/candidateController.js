@@ -1,4 +1,4 @@
-const { Candidate, Column } = require("../models/user_models")
+const { Candidate, Column, Label } = require("../models/user_models")
 
 class CandidateController {
     async create(req, res, next) {
@@ -31,6 +31,12 @@ class CandidateController {
             const { id } = req.params
             const candidate = await Candidate.findOne({
                 where: { id },
+                include: [
+                    {
+                        model: Label,
+                        as: "label",
+                    },
+                ],
             })
             return res.json(candidate)
         } catch (e) {

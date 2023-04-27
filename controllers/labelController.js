@@ -59,16 +59,18 @@ class LabelController {
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params
-            const label = await Label.destroy({ where: { id } })
-            return res.json({ message: `${label} deleted` })
+            await Label.destroy({ where: { id } })
+            return res.json(`${id} deleted`)
         } catch (e) {
             return res.json(e.message)
         }
     }
     async deleteCandidateLabel(req, res, next) {
         try {
-            const { id } = req.params
-            const label = await CandidateLabel.destroy({ where: { id } })
+            const { labelId, candidateId } = req.body
+            const label = await CandidateLabel.destroy({
+                where: { labelId, candidateId },
+            })
             return res.json(`${label} deleted successfuly`)
         } catch (e) {
             return res.json(e.message)

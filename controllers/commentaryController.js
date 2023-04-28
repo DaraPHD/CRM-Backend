@@ -72,10 +72,20 @@ class CommentaryController {
         try {
             const { id } = req.params
             const commentaries = await Commentary.findAll({
+                // await Commentary.findAll({
                 where: { candidateId: id },
                 include: [
                     {
                         model: User,
+                    },
+                    {
+                        model: Commentary,
+                        as: "replies",
+                        include: [
+                            {
+                                model: User,
+                            },
+                        ],
                     },
                 ],
             })

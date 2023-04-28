@@ -6,7 +6,7 @@ const User = sequelize.define("user", {
     name: { type: DataTypes.STRING, allowNull: false },
     surname: { type: DataTypes.STRING, allowNull: false },
     position: { type: DataTypes.STRING, allowNull: false },
-    avatar: { type: DataTypes.STRING, allowNull: true },
+    avatar: { type: DataTypes.STRING, defaultValue: "avatar", allowNull: true },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING(1000), allowNull: false },
     role: {
@@ -126,7 +126,7 @@ Achievement.belongsToMany(User, {
 
 // Color.sync({force: true})
 // console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
-// User.sync({alter: true});
+User.sync({ alter: true })
 // Token.sync({alter: true})
 // Candidate.sync({ alter: true });
 // UserCandidate.sync()

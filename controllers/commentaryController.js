@@ -88,6 +88,7 @@ class CommentaryController {
                         ],
                     },
                 ],
+                order: [["id", "DESC"]],
             })
             return res.json(commentaries)
         } catch (e) {

@@ -1,4 +1,4 @@
-const { User } = require("../models/user_models")
+const { User } = require("../models/models")
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 // const mailService = require("./mailService");
@@ -76,8 +76,7 @@ class UserService {
     }
 
     async getAllUsers() {
-        const users = await User.findAll()
-        return users
+        return User.findAll()
     }
 }
 

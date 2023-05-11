@@ -1,4 +1,4 @@
-const { Label, CandidateLabel } = require("../models/user_models")
+const { Label, CardLabel } = require("../models/models")
 
 class LabelController {
     async create(req, res, next) {
@@ -13,11 +13,11 @@ class LabelController {
             return res.json(e.message)
         }
     }
-    async createCandidateLabel(req, res, next) {
+    async createCardLabel(req, res, next) {
         try {
-            const { candidateId, labelId } = req.body
-            const label = await CandidateLabel.create({ candidateId, labelId })
-            // const labels = await CandidateLabel.findAll({
+            const { cardId, labelId } = req.body
+            const label = await CardLabel.create({ cardId, labelId })
+            // const labels = await CardLabel.findAll({
             //     order: [["id", "ASC"]],
             // })
             return res.json(label)
@@ -68,11 +68,11 @@ class LabelController {
             return res.json(e.message)
         }
     }
-    async deleteCandidateLabel(req, res, next) {
+    async deleteCardLabel(req, res, next) {
         try {
-            const { labelId, candidateId } = req.body
-            const label = await CandidateLabel.destroy({
-                where: { labelId, candidateId },
+            const { labelId, cardId } = req.body
+            const label = await CardLabel.destroy({
+                where: { labelId, cardId },
             })
             return res.json(`${label} deleted successfuly`)
         } catch (e) {

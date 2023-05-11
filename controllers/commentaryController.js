@@ -1,12 +1,12 @@
-const { Commentary, User } = require("../models/user_models")
+const { Commentary, User } = require("../models/models")
 
 class CommentaryController {
     async create(req, res, next) {
         try {
-            const { content, candidateId, userId } = req.body
+            const { content, cardId, userId } = req.body
             const commentary = await Commentary.create({
                 content,
-                candidateId,
+                cardId,
                 userId,
             })
             return res.json(commentary)
@@ -17,13 +17,14 @@ class CommentaryController {
 
     async createReply(req, res, next) {
         try {
-            const { userId, content, candidateId } = req.body
+            const { userId, content, parent_id, username } = req.body
             const { id } = req.params
             const reply = await Commentary.create({
-                candidateId,
                 userId,
                 content,
                 commentaryId: id,
+                parent_id,
+                username,
             })
             return res.json({ reply })
         } catch (e) {
@@ -44,11 +45,11 @@ class CommentaryController {
     async updateOne(req, res, next) {
         try {
             const { id } = req.params
-            const { content, candidateId, userId } = req.body
+            const { content, cardId, userId } = req.body
             const commentary = await Commentary.findByPk(id)
             if (commentary) {
                 ;(commentary.content = content),
-                    (commentary.candidateId = candidateId),
+                    (commentary.cardId = cardId),
                     (commentary.userId = userId)
                 await commentary.save()
                 return res.json(commentary)
@@ -72,8 +73,7 @@ class CommentaryController {
         try {
             const { id } = req.params
             const commentaries = await Commentary.findAll({
-                // await Commentary.findAll({
-                where: { candidateId: id },
+                where: { cardId: id },
                 include: [
                     {
                         model: User,

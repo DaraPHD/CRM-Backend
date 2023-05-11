@@ -1,21 +1,5 @@
-const { User } = require("../models/user_models")
+const { User } = require("../models/models")
 const jwt = require("jsonwebtoken")
-
-// const checkRole = (role) => async (req, res, next) => {
-//     const userId = req.userId
-//     console.log(userId)
-//     try {
-//         const user = await User.findOne({ where: {id: userId}})
-//         if (!user || user.role !== role) {
-//             return res.status(403).send('Access deneid')
-//         }
-//         next()
-//     } catch (e) {
-//         res.status(500).send(e.message)
-//     }
-// }
-
-// module.exports = checkRole
 
 module.exports = function (role) {
     return function (req, res, next) {

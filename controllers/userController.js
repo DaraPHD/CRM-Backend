@@ -1,5 +1,5 @@
 const userService = require("../service/userService")
-const { User } = require("../models/user_models")
+const { User } = require("../models/models")
 const uuid = require("uuid")
 const path = require("path")
 

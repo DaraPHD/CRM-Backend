@@ -1,4 +1,4 @@
-const { Token } = require("../models/user_models")
+const { Token } = require("../models/models")
 
 class TokenController {
     async getAll(req, res, next) {

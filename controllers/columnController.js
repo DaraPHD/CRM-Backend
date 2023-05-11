@@ -1,4 +1,4 @@
-const { Column } = require("../models/user_models")
+const { Column } = require("../models/models")
 
 class ColumnController {
     async create(req, res, next) {
@@ -52,8 +52,8 @@ class ColumnController {
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params
-            const candidate = await Column.destroy({ where: { id } })
-            return res.json({ message: `${candidate} deleted` })
+            const column = await Column.destroy({ where: { id } })
+            return res.json({ message: `${id} deleted` })
         } catch (e) {
             return res.json(e.message)
         }

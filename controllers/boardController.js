@@ -1,10 +1,4 @@
-const {
-    Board,
-    Column,
-    Candidate,
-    Label,
-    CandidateLabel,
-} = require("../models/user_models")
+const { Board, Column, Card, Label, CardLabel } = require("../models/models")
 const { Op } = require("sequelize")
 
 class BoardController {
@@ -30,8 +24,8 @@ class BoardController {
                         as: "column",
                         include: [
                             {
-                                model: Candidate,
-                                as: "candidate",
+                                model: Card,
+                                as: "card",
                                 include: [
                                     {
                                         model: Label,
@@ -45,8 +39,8 @@ class BoardController {
                 order: [
                     ["id", "ASC"],
                     [Column, "id", "ASC"],
-                    [Column, Candidate, "id", "ASC"],
-                    [Column, Candidate, Label, "id", "ASC"],
+                    [Column, Card, "id", "ASC"],
+                    [Column, Card, Label, "id", "ASC"],
                 ],
             })
             return res.json(board)
@@ -55,7 +49,7 @@ class BoardController {
         }
     }
 
-    async searchCandidate(req, res, next) {
+    async searchCard(req, res, next) {
         try {
             const { fullname } = req.query
             const where = {}
@@ -70,8 +64,8 @@ class BoardController {
                             as: "column",
                             include: [
                                 {
-                                    model: Candidate,
-                                    as: "candidate",
+                                    model: Card,
+                                    as: "card",
                                     where,
                                     include: [
                                         {
@@ -99,8 +93,8 @@ class BoardController {
                             as: "column",
                             include: [
                                 {
-                                    model: Candidate,
-                                    as: "candidate",
+                                    model: Card,
+                                    as: "card",
                                     include: [
                                         {
                                             model: Label,
@@ -114,8 +108,8 @@ class BoardController {
                     order: [
                         ["id", "ASC"],
                         [Column, "id", "ASC"],
-                        [Column, Candidate, "id", "ASC"],
-                        [Column, Candidate, Label, "id", "ASC"],
+                        [Column, Card, "id", "ASC"],
+                        [Column, Card, Label, "id", "ASC"],
                     ],
                 })
                 return res.json(boards)
@@ -124,11 +118,11 @@ class BoardController {
             return res.json(e.message)
         }
     }
-    async updateCandidates(req, res, next) {
+    async updateCards(req, res, next) {
         //     try {
         //         const {columnId} = req.params
         //         const {name, surname, client, is_paid} = req.body
-        //     const candidates = await Candidate.update(
+        //     const cards = await Card.update(
         //         {name,
         //         surname,
         //         client,
@@ -139,7 +133,7 @@ class BoardController {
         // returning: true
         // }
         //     )
-        //     return res.json(candidates[1])
+        //     return res.json(cards[1])
         //     } catch (e) {
         //     return res.json(e.message)
         //     }

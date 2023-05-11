@@ -6,7 +6,11 @@ const User = sequelize.define("user", {
     name: { type: DataTypes.STRING, allowNull: false },
     surname: { type: DataTypes.STRING, allowNull: false },
     position: { type: DataTypes.STRING, allowNull: false },
-    avatar: { type: DataTypes.STRING, defaultValue: "avatar", allowNull: true },
+    avatar: {
+        type: DataTypes.STRING,
+        defaultValue: "avatar.jpg",
+        allowNull: true,
+    },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING(1000), allowNull: false },
     role: {
@@ -42,7 +46,7 @@ const UserAchievement = sequelize.define("user_achievement", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 })
 
-const Candidate = sequelize.define("candidate", {
+const Card = sequelize.define("card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING(1000), allowNull: false },
     fullname: { type: DataTypes.STRING, allowNull: true },
@@ -65,6 +69,8 @@ const Label = sequelize.define("label", {
 const Commentary = sequelize.define("commentary", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.TEXT },
+    username: { type: DataTypes.STRING },
+    parent_id: { type: DataTypes.INTEGER, allowNull: true },
 })
 
 const Board = sequelize.define("board", {
@@ -72,11 +78,11 @@ const Board = sequelize.define("board", {
     name: { type: DataTypes.STRING, allowNull: true, unique: true },
 })
 
-const UserCandidate = sequelize.define("user_candidate", {
+const UserCard = sequelize.define("user_card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 })
 
-const CandidateLabel = sequelize.define("candidate_label", {
+const CardLabel = sequelize.define("card_label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 })
 
@@ -91,30 +97,30 @@ Token.belongsTo(User)
 User.hasMany(Commentary, { as: "commentary" })
 Commentary.belongsTo(User)
 
-Candidate.hasMany(Commentary, { as: "commentary" })
-Commentary.belongsTo(Candidate)
+Card.hasMany(Commentary, { as: "commentary" })
+Commentary.belongsTo(Card)
 
 Commentary.hasMany(Commentary, { as: "replies" })
 
-Column.hasMany(Candidate, { as: "candidate" })
-Candidate.belongsTo(Column)
+Column.hasMany(Card, { as: "card" })
+Card.belongsTo(Column)
 
 Board.hasMany(Column, { as: "column" })
 Column.belongsTo(Board)
 
-Label.belongsToMany(Candidate, {
-    through: CandidateLabel,
-    as: "candidate",
+Label.belongsToMany(Card, {
+    through: CardLabel,
+    as: "card",
 })
 
-Candidate.belongsToMany(Label, {
-    through: CandidateLabel,
+Card.belongsToMany(Label, {
+    through: CardLabel,
     as: "label",
 })
 
-User.belongsToMany(Candidate, { through: UserCandidate, as: "candidate" })
+User.belongsToMany(Card, { through: UserCard, as: "card" })
 
-Candidate.belongsToMany(User, { through: UserCandidate, as: "user" })
+Card.belongsToMany(User, { through: UserCard, as: "user" })
 
 User.belongsToMany(Achievement, {
     through: UserAchievement,
@@ -126,18 +132,18 @@ Achievement.belongsToMany(User, {
 
 // Color.sync({force: true})
 // console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
-User.sync({ alter: true })
+// User.sync({ alter: true })
 // Token.sync({alter: true})
-// Candidate.sync({ alter: true });
-// UserCandidate.sync()
-// Commentary.sync({ alter: true });
+// Card.sync({ alter: true });
+// UserCard.sync()
+// Commentary.sync({ alter: true })
 // Board.sync({ alter: true});
 // Column.sync({ alter: true });
 // Label.sync({ alter: true })
 
 module.exports = {
     User,
-    Candidate,
+    Card,
     Column,
     Label,
     Commentary,
@@ -146,6 +152,6 @@ module.exports = {
     Token,
     Board,
     Color,
-    UserCandidate,
-    CandidateLabel,
+    UserCard,
+    CardLabel,
 }

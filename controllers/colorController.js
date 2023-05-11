@@ -1,4 +1,4 @@
-const { Color } = require("../models/user_models")
+const { Color } = require("../models/models")
 
 class ColorController {
     async create(req, res, next) {

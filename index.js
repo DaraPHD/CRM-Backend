@@ -7,10 +7,12 @@ const path = require("path")
 const router = require("./routers/index")
 const cookieParser = require("cookie-parser")
 const errorMiddleware = require("./middlewares/errorMiddleware")
-const { Column } = require("./models/models")
-const { Board } = require("./models/models")
-const { Card } = require("./models/models")
-const { Label } = require("./models/models")
+const columnHandler = require("./soketHandlers/columnHandler")
+const boardHandler = require("./soketHandlers/boardHandler")
+const cardHandler = require("./soketHandlers/cardHandler")
+const colorHandler = require("./soketHandlers/colorHandler")
+const commentaryHandler = require("./soketHandlers/commentaryHandler")
+const labelHandler = require("./soketHandlers/labelHandler")
 
 const PORT = process.env.PORT || 5000
 
@@ -26,61 +28,16 @@ const io = require("socket.io")(httpServer, {
     },
 })
 
-io.on("connection", (socket) => {
-    console.log(`Долбоеб номер: ${socket.id} присоединился`)
+const onConnection = (socket) => {
+    columnHandler(io, socket)
+    boardHandler(io, socket)
+    cardHandler(io, socket)
+    colorHandler(io, socket)
+    commentaryHandler(io, socket)
+    labelHandler(io, socket)
+}
 
-    // socket.on("CREATE:COLUMN", async (column) => {
-    //     console.log(column)
-    //     try {
-    //         const columnEvent = await Column.create({
-    //             name: column.name,
-    //             boardId: column.boardId,
-    //         })
-    //         io.emit("columnCreated", columnEvent)
-    //         console.log(columnEvent)
-    //     } catch (error) {}
-    // })
-
-    socket.on("GET:BOARD", async ({ boardId }) => {
-        try {
-            const board = await Board.findOne({
-                where: { id: boardId },
-                include: [
-                    {
-                        model: Column,
-                        as: "column",
-                        include: [
-                            {
-                                model: Card,
-                                as: "card",
-                                include: [
-                                    {
-                                        model: Label,
-                                        as: "label",
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-                order: [
-                    ["id", "ASC"],
-                    [Column, "id", "ASC"],
-                    [Column, Card, "id", "ASC"],
-                    [Column, Card, Label, "id", "ASC"],
-                ],
-            })
-            io.emit("boardGetted", board)
-            console.log(board)
-        } catch (e) {
-            return "Ошибка получения Board"
-        }
-    })
-
-    socket.on("disconnect", () => {
-        console.log(`Долбоеб номер: ${socket.id} отключился`)
-    })
-})
+io.on("connection", onConnection)
 
 app.use(
     cors({
@@ -109,7 +66,3 @@ const start = async () => {
 }
 
 start()
-
-module.exports = {
-    io,
-}

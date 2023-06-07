@@ -10,7 +10,7 @@ class ColumnService {
 
             return { column }
         } catch (e) {
-            return "Ошибка создания Column"
+            return e
         }
     }
     async getOne(id) {
@@ -42,7 +42,7 @@ class ColumnService {
                 return { column }
             }
         } catch (e) {
-            return "Ошибка обноаления Column"
+            return "Ошибка обновления Column"
         }
     }
     async deleteOne(id) {

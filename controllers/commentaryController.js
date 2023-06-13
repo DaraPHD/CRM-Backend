@@ -9,7 +9,7 @@ class CommentaryController {
                 cardId,
                 userId
             )
-            return res.json(commentary)
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -26,7 +26,7 @@ class CommentaryController {
                 username,
                 id
             )
-            return res.json(reply)
+            return res.json({ reply })
         } catch (e) {
             return res.json(e.message)
         }
@@ -35,7 +35,7 @@ class CommentaryController {
         try {
             const { id } = req.params
             const commentary = await commentaryService.getOne(id)
-            return res.json(commentary)
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -51,7 +51,7 @@ class CommentaryController {
                 userId,
                 id
             )
-            return res.json(commentary)
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -71,7 +71,7 @@ class CommentaryController {
             const commentaries = await commentaryService.getAllCardCommentary(
                 id
             )
-            return res.json(commentaries)
+            return res.json({ commentaries })
         } catch (e) {
             return res.json(e.message)
         }

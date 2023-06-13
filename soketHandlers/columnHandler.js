@@ -1,3 +1,4 @@
+const { Card } = require("../models/models.js")
 const columnService = require("../services/columnService.js")
 
 module.exports = (io, socket) => {

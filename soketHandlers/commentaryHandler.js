@@ -40,7 +40,7 @@ module.exports = (io, socket) => {
         try {
             const commentaryEvent = await commentaryService.getOne(id)
             console.log(commentaryEvent)
-            io.emit("commentaryGetted", commentaryEvent)
+            io.emit("commentaryReceived", commentaryEvent)
 
             return { commentaryEvent }
         } catch (e) {}
@@ -73,7 +73,7 @@ module.exports = (io, socket) => {
             const commentaryEvent =
                 await commentaryService.getcommentaryFromColumn(id)
             console.log(commentaryEvent)
-            io.emit("commentariesCardGetted", commentaryEvent)
+            io.emit("commentariesCardReceived", commentaryEvent)
 
             return { commentaryEvent }
         } catch (e) {}

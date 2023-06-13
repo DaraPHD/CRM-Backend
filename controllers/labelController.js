@@ -6,7 +6,7 @@ class LabelController {
         try {
             const { name, color } = req.body
             const label = await labelService.create(name, color)
-            return res.json(label)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -15,7 +15,7 @@ class LabelController {
         try {
             const { cardId, labelId } = req.body
             const label = await labelService.createCardLabel(cardId, labelId)
-            return res.json(label)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -24,7 +24,7 @@ class LabelController {
         try {
             const { id } = req.params
             const label = await labelService.getOne(id)
-            return res.json(label)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -32,7 +32,7 @@ class LabelController {
     async getAll(req, res, next) {
         try {
             const labels = await labelService.getAll()
-            return res.json(labels)
+            return res.json({ labels })
         } catch (e) {
             return res.json(e.message)
         }
@@ -42,7 +42,7 @@ class LabelController {
             const { id } = req.params
             const { name, color } = req.body
             const label = await labelService.updateOne(name, color, id)
-            return res.json(label)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }

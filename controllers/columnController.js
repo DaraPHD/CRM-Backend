@@ -5,7 +5,7 @@ class ColumnController {
         try {
             const { name } = req.body
             const column = await columnService.create(name)
-            return res.json(column)
+            return res.json({ column })
         } catch (e) {
             return res.json(e.message)
         }
@@ -14,7 +14,7 @@ class ColumnController {
         try {
             const { id } = req.params
             const column = await columnService.getOne(id)
-            return res.json(column)
+            return res.json({ column })
         } catch (e) {
             return res.json(e.message)
         }
@@ -22,7 +22,7 @@ class ColumnController {
     async getAll(req, res, next) {
         try {
             const columns = await columnService.getAll()
-            return res.json(columns)
+            return res.json({ columns })
         } catch (e) {
             return res.json(e.message)
         }
@@ -32,7 +32,7 @@ class ColumnController {
             const { id } = req.params
             const { name, boardId } = req.body
             const column = await columnService.updateOne(id, name, boardId)
-            return res.json(column)
+            return res.json({ column })
         } catch (e) {
             return res.json(e.message)
         }

@@ -8,7 +8,7 @@ class CommentaryService {
                 cardId,
                 userId,
             })
-            return { commentary }
+            return commentary
         } catch (e) {
             return "Ошибка создания Commentary"
         }
@@ -23,7 +23,7 @@ class CommentaryService {
                 username,
                 commentaryId: id,
             })
-            return { reply }
+            return reply
         } catch (e) {
             return "Ошибка создания Reply"
         }
@@ -33,7 +33,7 @@ class CommentaryService {
             const commentary = await Commentary.findOne({
                 where: { id },
             })
-            return { commentary }
+            return commentary
         } catch (e) {
             return "Ошибка получения экземпляра Commentary"
         }
@@ -47,7 +47,7 @@ class CommentaryService {
                 commentary.cardId = cardId
                 commentary.userId = userId
                 await commentary.save()
-                return { commentary }
+                return commentary
             }
         } catch (e) {
             return "Ошибка обновления Commentary"
@@ -81,7 +81,7 @@ class CommentaryService {
                 ],
                 order: [["id", "DESC"]],
             })
-            return { commentaries }
+            return commentaries
         } catch (e) {
             return "Ошибка получения Commentary"
         }

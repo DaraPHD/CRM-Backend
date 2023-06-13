@@ -1,9 +1,10 @@
 const cardService = require("../services/cardService.js")
 
 module.exports = (io, socket) => {
-    const cardCreate = async ({ name, columnId }) => {
+    const cardCreate = async ({ columnId, title }) => {
         try {
-            const cardEvent = await cardService.create(name, columnId)
+            console.log(title)
+            const cardEvent = await cardService.create(columnId, title)
             console.log(cardEvent)
             io.emit("cardCreated", cardEvent)
             return { cardEvent }
@@ -14,7 +15,7 @@ module.exports = (io, socket) => {
         try {
             const cardEvent = await cardService.getOne(Id)
             console.log(cardEvent)
-            io.emit("cardGetted", cardEvent)
+            io.emit("cardReceived", cardEvent)
 
             return { cardEvent }
         } catch (e) {}
@@ -24,7 +25,7 @@ module.exports = (io, socket) => {
         try {
             const cardEvent = await cardService.getAll()
             console.log(cardEvent)
-            io.emit("cardsGetted", cardEvent)
+            io.emit("cardsReceived", cardEvent)
 
             return { cardEvent }
         } catch (e) {}
@@ -51,7 +52,7 @@ module.exports = (io, socket) => {
         try {
             const cardEvent = await cardService.getCardFromColumn(columnId)
             console.log(cardEvent)
-            io.emit("cardColumnGetted", cardEvent)
+            io.emit("cardColumnReceived", cardEvent)
 
             return { cardEvent }
         } catch (e) {}

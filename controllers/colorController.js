@@ -5,7 +5,7 @@ class ColorController {
         try {
             const { color_code } = req.body
             const color = await colorService.create(color_code)
-            return res.json(color)
+            return res.json({ color })
         } catch (e) {
             return res.json(e.message)
         }
@@ -13,7 +13,7 @@ class ColorController {
     async getAll(req, res, next) {
         try {
             const colors = await colorService.getAll()
-            return res.json(colors)
+            return res.json({ colors })
         } catch (e) {
             return res.json(e.message)
         }
@@ -23,7 +23,7 @@ class ColorController {
             const { id } = req.params
             const { color_code } = req.body
             const color = await colorService.updateOne(id, color_code)
-            return res.json(color)
+            return res.json({ color })
         } catch (e) {
             return res.json(e.message)
         }

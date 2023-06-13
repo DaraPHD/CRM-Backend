@@ -15,7 +15,7 @@ class LabelService {
     async createCardLabel(cardId, labelId) {
         try {
             const label = await CardLabel.create({ cardId, labelId })
-            return { label }
+            return label
         } catch (e) {
             return "Ошибка создания связи CardLabel"
         }
@@ -25,7 +25,7 @@ class LabelService {
             const label = await Label.findOne({
                 where: { id },
             })
-            return { label }
+            return label
         } catch (e) {
             return "Ошибка получения Label"
         }
@@ -33,7 +33,7 @@ class LabelService {
     async getAll() {
         try {
             const labels = await Label.findAll()
-            return { labels }
+            return labels
         } catch (e) {
             return "Ошибка получения Label"
         }
@@ -45,9 +45,9 @@ class LabelService {
                 label.name = name
                 label.color = color
                 await label.save()
-                return { label }
+                return label
             } else {
-                return { label }
+                return label
             }
         } catch (e) {
             return "Ошибка обновления Label"

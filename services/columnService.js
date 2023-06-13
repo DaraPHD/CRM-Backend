@@ -8,7 +8,7 @@ class ColumnService {
                 boardId: 1,
             })
 
-            return { column }
+            return column
         } catch (e) {
             return e
         }
@@ -19,7 +19,7 @@ class ColumnService {
                 where: { id },
             })
 
-            return { column }
+            return column
         } catch (e) {
             return "Ошибка получения экземпляра Column"
         }
@@ -27,7 +27,7 @@ class ColumnService {
     async getAll() {
         try {
             const columns = await Column.findAll()
-            return { columns }
+            return columns
         } catch (e) {
             return "Ошибка получения Column"
         }
@@ -39,7 +39,7 @@ class ColumnService {
                 column.name = name
                 column.boardId = boardId
                 await column.save()
-                return { column }
+                return column
             }
         } catch (e) {
             return "Ошибка обновления Column"

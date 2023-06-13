@@ -4,7 +4,7 @@ module.exports = (io, socket) => {
     const labelCreate = async ({ name, color }) => {
         try {
             const labelEvent = await labelService.create(name, color)
-            console.log(labelEvent)
+
             io.emit("labelCreated", labelEvent)
             return { labelEvent }
         } catch (e) {}
@@ -13,8 +13,8 @@ module.exports = (io, socket) => {
     const labelGet = async ({ Id }) => {
         try {
             const labelEvent = await labelService.getOne(Id)
-            console.log(labelEvent)
-            io.emit("labelGetted", labelEvent)
+
+            io.emit("labelReceived", labelEvent)
 
             return { labelEvent }
         } catch (e) {}
@@ -24,7 +24,7 @@ module.exports = (io, socket) => {
         try {
             const labelEvent = await labelService.getAll()
             console.log(labelEvent)
-            io.emit("labelsGetted", labelEvent)
+            io.emit("labelsReceived", labelEvent)
 
             return { labelEvent }
         } catch (e) {}
@@ -41,7 +41,7 @@ module.exports = (io, socket) => {
     const labelDeleteOne = async ({ id }) => {
         try {
             const labelEvent = await labelService.deleteOne(id)
-            console.log(labelEvent)
+
             io.emit("labelDeleted", labelEvent)
 
             return { labelEvent }
@@ -53,8 +53,8 @@ module.exports = (io, socket) => {
                 cardId,
                 labelId
             )
-            console.log(labelEvent)
-            io.emit("labelCardGetted", labelEvent)
+
+            io.emit("labelCardReceived", labelEvent)
 
             return { labelEvent }
         } catch (e) {}
@@ -65,7 +65,7 @@ module.exports = (io, socket) => {
                 labelId,
                 cardId
             )
-            console.log(labelEvent)
+
             io.emit("labelCardDeleted", labelEvent)
 
             return { labelEvent }

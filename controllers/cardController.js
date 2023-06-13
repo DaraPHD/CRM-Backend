@@ -52,7 +52,7 @@ class CardController {
             const { columnId } = req.params
             const cards = await cardService.getCardFromColumn(columnId)
             const column = await cardService.getCardFromColumn(columnId)
-            return res.json((cards, column))
+            return res.json({ cards, column })
         } catch (e) {
             return res.json(e.message)
         }

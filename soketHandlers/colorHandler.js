@@ -14,7 +14,7 @@ module.exports = (io, socket) => {
         try {
             const colorEvent = await colorService.getAll()
             console.log(colorEvent)
-            io.emit("colorsGetted", colorEvent)
+            io.emit("colorsReceived", colorEvent)
 
             return { colorEvent }
         } catch (e) {}
@@ -35,7 +35,6 @@ module.exports = (io, socket) => {
             const colorEvent = await colorService.deleteOne(id)
             console.log(colorEvent)
             io.emit("colorDeleted", colorEvent)
-
             return { colorEvent }
         } catch (e) {}
     }

@@ -14,7 +14,7 @@ module.exports = (io, socket) => {
         try {
             const boardEvent = await boardService.getBoard(boardId)
             console.log(boardEvent)
-            io.emit("boardGetted", boardEvent)
+            io.emit("boardReceived", boardEvent)
 
             return { boardEvent }
         } catch (e) {}
@@ -30,6 +30,6 @@ module.exports = (io, socket) => {
         } catch (e) {}
     }
     socket.on("GET:BOARD", boardGet)
-    socket.on("CREATE: BOARD", boardCreate)
+    socket.on("CREATE:BOARD", boardCreate)
     socket.on("SEARCH:BOARD", boardSearch)
 }

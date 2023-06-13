@@ -9,7 +9,7 @@ class CardService {
             })
             return card
         } catch (e) {
-            return "Ошбика создания Card"
+            return e
         }
     }
     async getOne(id) {

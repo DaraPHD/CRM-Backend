@@ -6,7 +6,7 @@ class ColorService {
             const color = await Color.create({
                 color_code,
             })
-            return { color }
+            return color
         } catch (e) {
             return "Ошибка создания Color"
         }
@@ -14,7 +14,7 @@ class ColorService {
     async getAll() {
         try {
             const colors = await Color.findAll()
-            return { colors }
+            return colors
         } catch (e) {
             return "Ошибка получения Color"
         }

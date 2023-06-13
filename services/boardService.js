@@ -7,7 +7,7 @@ class BoardService {
             const board = await Board.create({
                 name,
             })
-            return { board }
+            return board
         } catch (e) {
             return "Ошибка создания Board"
         }
@@ -41,7 +41,7 @@ class BoardService {
                     [Column, Card, Label, "id", "ASC"],
                 ],
             })
-            return { board }
+            return board
         } catch (e) {
             return "Ошибка получения Board"
         }
@@ -80,7 +80,7 @@ class BoardService {
                     ],
                 })
 
-                return { searchResult }
+                return searchResult
             } else {
                 searchResult = await Board.findOne({
                     where: { id: 1 },
@@ -109,7 +109,7 @@ class BoardService {
                         [Column, Card, Label, "id", "ASC"],
                     ],
                 })
-                return { searchResult }
+                return searchResult
             }
         } catch (e) {
             return "Ошибка поиска"

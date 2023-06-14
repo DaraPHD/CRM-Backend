@@ -8,7 +8,6 @@ module.exports = (io, socket) => {
                 cardId,
                 userId
             )
-            console.log(commentaryEvent)
             io.emit("commentaryCreated", commentaryEvent)
             return { commentaryEvent }
         } catch (e) {}
@@ -29,7 +28,6 @@ module.exports = (io, socket) => {
                 username,
                 id
             )
-            console.log(commentaryEvent)
             io.emit("replyCreated", commentaryEvent)
 
             return { commentaryEvent }
@@ -39,7 +37,6 @@ module.exports = (io, socket) => {
     const commentaryGetOne = async ({ id }) => {
         try {
             const commentaryEvent = await commentaryService.getOne(id)
-            console.log(commentaryEvent)
             io.emit("commentaryReceived", commentaryEvent)
 
             return { commentaryEvent }
@@ -62,19 +59,18 @@ module.exports = (io, socket) => {
     const commentaryDeleteOne = async ({ id }) => {
         try {
             const commentaryEvent = await commentaryService.deleteOne(id)
-            console.log(commentaryEvent)
+
             io.emit("commentaryDeleted", commentaryEvent)
 
-            return { commentaryEvent }
+            return "Commentary deleted successfully"
         } catch (e) {}
     }
     const commentaryGetAllCard = async ({ id }) => {
         try {
             const commentaryEvent =
-                await commentaryService.getcommentaryFromColumn(id)
-            console.log(commentaryEvent)
+                await commentaryService.getAllCardCommentary(id)
+            console.log(`!!!!!!${commentaryEvent}!!!!!!`)
             io.emit("commentariesCardReceived", commentaryEvent)
-
             return { commentaryEvent }
         } catch (e) {}
     }

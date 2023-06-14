@@ -45,7 +45,7 @@ module.exports = (io, socket) => {
             console.log(cardEvent)
             io.emit("cardDeleted", cardEvent)
 
-            return { cardEvent }
+            return "Card deleted successfully"
         } catch (e) {}
     }
     const cardFromColumn = async ({ columnId }) => {

@@ -47,7 +47,7 @@ module.exports = (io, socket) => {
             return { labelEvent }
         } catch (e) {}
     }
-    const labelCreateCard = async (cardId, labelId) => {
+    const labelCreateCard = async ({ cardId, labelId }) => {
         try {
             const labelEvent = await labelService.createCardLabel(
                 cardId,
@@ -68,7 +68,7 @@ module.exports = (io, socket) => {
 
             io.emit("labelCardDeleted", labelEvent)
 
-            return { labelEvent }
+            return "Relation deleted"
         } catch (e) {}
     }
     socket.on("GETONE:LABEL", labelGet)

@@ -4,7 +4,7 @@ module.exports = (io, socket) => {
     const boardCreate = async ({ name }) => {
         try {
             const boardEvent = await boardService.create(name)
-            console.log(boardEvent)
+
             io.emit("boardCreated", boardEvent)
             return { boardEvent }
         } catch (e) {}
@@ -13,7 +13,7 @@ module.exports = (io, socket) => {
     const boardGet = async ({ boardId }) => {
         try {
             const boardEvent = await boardService.getBoard(boardId)
-            console.log(boardEvent)
+
             io.emit("boardReceived", boardEvent)
 
             return { boardEvent }
@@ -23,7 +23,7 @@ module.exports = (io, socket) => {
     const boardSearch = async ({ title }) => {
         try {
             const boardEvent = await boardService.searchCard(title)
-            console.log(boardEvent)
+
             io.emit("boardSerched", boardEvent)
 
             return { boardEvent }

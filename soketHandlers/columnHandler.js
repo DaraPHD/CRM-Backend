@@ -42,7 +42,7 @@ module.exports = (io, socket) => {
             const columnEvent = await columnService.deleteOne(id)
             console.log(columnEvent)
             io.emit("columnDeleted", columnEvent)
-            return { columnEvent }
+            return "Column deleted successfully"
         } catch (e) {}
     }
     socket.on("CREATE:COLUMN", columnCreated)

@@ -35,7 +35,7 @@ module.exports = (io, socket) => {
             const colorEvent = await colorService.deleteOne(id)
             console.log(colorEvent)
             io.emit("colorDeleted", colorEvent)
-            return { colorEvent }
+            return "Color deleted successfully"
         } catch (e) {}
     }
     socket.on("CREATE:COLOR", colorCreate)

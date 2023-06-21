@@ -1,15 +1,15 @@
-const { Board, Column, Card, Label } = require("../models/models")
-const { Op } = require("sequelize")
+const { Board, Column, Card, Label } = require("../models/models");
+const { Op } = require("sequelize");
 
 class BoardService {
     async create(name) {
         try {
             const board = await Board.create({
                 name,
-            })
-            return board
+            });
+            return board;
         } catch (e) {
-            return "Ошибка создания Board"
+            return "Ошибка создания Board";
         }
     }
     async getBoard(id) {
@@ -40,19 +40,19 @@ class BoardService {
                     [Column, Card, "id", "ASC"],
                     [Column, Card, Label, "id", "ASC"],
                 ],
-            })
-            return board
+            });
+            return board;
         } catch (e) {
-            return "Ошибка получения Board"
+            return "Ошибка получения Board";
         }
     }
 
     async searchCard(title) {
         try {
-            const where = {}
-            let searchResult
+            const where = {};
+            let searchResult;
             if (title) {
-                where.title = { [Op.iLike]: `%${title}%` }
+                where.title = { [Op.iLike]: `%${title}%` };
                 searchResult = await Board.findOne({
                     where: { id: 1 },
                     include: [
@@ -78,9 +78,9 @@ class BoardService {
                         ["id", "ASC"],
                         [Column, "id", "ASC"],
                     ],
-                })
+                });
 
-                return searchResult
+                return searchResult;
             } else {
                 searchResult = await Board.findOne({
                     where: { id: 1 },
@@ -108,11 +108,11 @@ class BoardService {
                         [Column, Card, "id", "ASC"],
                         [Column, Card, Label, "id", "ASC"],
                     ],
-                })
-                return searchResult
+                });
+                return searchResult;
             }
         } catch (e) {
-            return "Ошибка поиска"
+            return "Ошибка поиска";
         }
     }
     async updateCards(columnId, title) {
@@ -126,6 +126,14 @@ class BoardService {
         //     return "ошибка обноваления"
         // }
     }
+    async delete(id) {
+        try {
+            await Board.destroy({ where: { id } });
+            return `Board succesfully deleted`;
+        } catch (e) {
+            return e;
+        }
+    }
 }
 
-module.exports = new BoardService()
+module.exports = new BoardService();

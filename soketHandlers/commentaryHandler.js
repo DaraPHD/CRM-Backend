@@ -69,12 +69,12 @@ module.exports = (io, socket) => {
         try {
             const commentaryEvent =
                 await commentaryService.getAllCardCommentary(id)
-            console.log(`!!!!!!${commentaryEvent}!!!!!!`)
+
             io.emit("commentariesCardReceived", commentaryEvent)
             return { commentaryEvent }
         } catch (e) {}
     }
-    socket.on("GETREPLY:COMMENTARY", commentaryCreateReply)
+    socket.on("CREATEREPLY:COMMENTARY", commentaryCreateReply)
     socket.on("CREATE:COMMENTARY", commentaryCreate)
     socket.on("GETONE:COMMENTARY", commentaryGetOne)
     socket.on("UPDATE:COMMENTARY", commentaryUpdateOne)

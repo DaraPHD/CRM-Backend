@@ -1,35 +1,43 @@
-const boardService = require("../services/boardService.js")
+const boardService = require("../services/boardService.js");
 
 module.exports = (io, socket) => {
     const boardCreate = async ({ name }) => {
         try {
-            const boardEvent = await boardService.create(name)
+            const boardEvent = await boardService.create(name);
 
-            io.emit("boardCreated", boardEvent)
-            return { boardEvent }
+            io.emit("boardCreated", boardEvent);
+            return { boardEvent };
         } catch (e) {}
-    }
+    };
 
     const boardGet = async ({ boardId }) => {
         try {
-            const boardEvent = await boardService.getBoard(boardId)
+            const boardEvent = await boardService.getBoard(boardId);
 
-            io.emit("boardReceived", boardEvent)
+            io.emit("boardReceived", boardEvent);
 
-            return { boardEvent }
+            return { boardEvent };
         } catch (e) {}
-    }
+    };
 
     const boardSearch = async ({ title }) => {
         try {
-            const boardEvent = await boardService.searchCard(title)
+            const boardEvent = await boardService.searchCard(title);
 
-            io.emit("boardSerched", boardEvent)
+            io.emit("boardSerched", boardEvent);
 
-            return { boardEvent }
+            return { boardEvent };
         } catch (e) {}
-    }
-    socket.on("GET:BOARD", boardGet)
-    socket.on("CREATE:BOARD", boardCreate)
-    socket.on("SEARCH:BOARD", boardSearch)
-}
+    };
+    const boardDelete = async ({ id }) => {
+        try {
+            const boardEvent = await boardService.delete(id);
+            io.emit("boardDeleted", boardEvent);
+            return `Board succesfully deleted`;
+        } catch (e) {}
+    };
+    socket.on("GET:BOARD", boardGet);
+    socket.on("CREATE:BOARD", boardCreate);
+    socket.on("SEARCH:BOARD", boardSearch);
+    socket.on("DELETE:BOARD", boardDelete);
+};

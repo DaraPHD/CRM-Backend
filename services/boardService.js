@@ -115,17 +115,6 @@ class BoardService {
             return "Ошибка поиска";
         }
     }
-    async updateCards(columnId, title) {
-        // try {
-        //     const cards = await Card.update({
-        //         title,
-        //         columnId,
-        //     })
-        //     return cards
-        // } catch (e) {
-        //     return "ошибка обноваления"
-        // }
-    }
     async delete(id) {
         try {
             await Board.destroy({ where: { id } });

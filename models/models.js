@@ -1,7 +1,8 @@
-const sequelize = require("../db");
-const { DataTypes } = require("sequelize");
+const Sequelize = require("sequelize");
+const pg = require("../db/sequelize.js");
+const { DataTypes } = Sequelize;
 
-const User = sequelize.define("user", {
+const User = pg.sequelize.define("user", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
     surname: { type: DataTypes.STRING, allowNull: false },
@@ -23,7 +24,7 @@ const User = sequelize.define("user", {
     isActivated: { type: DataTypes.STRING },
 });
 
-const Token = sequelize.define("token", {
+const Token = pg.sequelize.define("token", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     refreshToken: {
         type: DataTypes.STRING(1000),
@@ -32,17 +33,17 @@ const Token = sequelize.define("token", {
     },
 });
 
-const Achievement = sequelize.define("achievement", {
+const Achievement = pg.sequelize.define("achievement", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING, allowNull: false },
 });
 
-const UserAchievement = sequelize.define("user_achievement", {
+const UserAchievement = pg.sequelize.define("user_achievement", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const Card = sequelize.define("card", {
+const Card = pg.sequelize.define("card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING(1000), allowNull: false },
     fullname: { type: DataTypes.STRING, allowNull: true },
@@ -51,38 +52,38 @@ const Card = sequelize.define("card", {
     recruiter_name: { type: DataTypes.STRING(100), allowNull: true },
 });
 
-const Column = sequelize.define("column", {
+const Column = pg.sequelize.define("column", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Label = sequelize.define("label", {
+const Label = pg.sequelize.define("label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: true },
     color: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Commentary = sequelize.define("commentary", {
+const Commentary = pg.sequelize.define("commentary", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.TEXT },
     username: { type: DataTypes.STRING },
     parentId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
-const Board = sequelize.define("board", {
+const Board = pg.sequelize.define("board", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: true, unique: true },
 });
 
-const UserCard = sequelize.define("user_card", {
+const UserCard = pg.sequelize.define("user_card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const CardLabel = sequelize.define("card_label", {
+const CardLabel = pg.sequelize.define("card_label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const Color = sequelize.define("color", {
+const Color = pg.sequelize.define("color", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     color_code: { type: DataTypes.STRING, allowNull: false },
 });

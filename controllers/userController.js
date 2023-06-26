@@ -1,4 +1,4 @@
-const userService = require("../service/userService")
+const userService = require("../services/userService")
 const { User } = require("../models/models")
 const uuid = require("uuid")
 const path = require("path")
@@ -48,12 +48,6 @@ class UserController {
             next(`Something goes wrong ${e.message}`)
         }
     }
-    // async activate(req, res, next) {
-    //     try {
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // }
     async refresh(req, res, next) {
         try {
             const { refreshToken } = req.cookies
@@ -69,9 +63,8 @@ class UserController {
     }
     async getAll(req, res, next) {
         try {
-            // res.json(["1234", "123123"]);
             const users = await userService.getAllUsers()
-            return res.json(users)
+            return res.json({ users })
         } catch (e) {
             next(e)
         }

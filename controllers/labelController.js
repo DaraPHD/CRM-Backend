@@ -1,14 +1,12 @@
 const { Label, CardLabel } = require("../models/models")
+const labelService = require("../services/labelService")
 
 class LabelController {
     async create(req, res, next) {
         try {
             const { name, color } = req.body
-            const label = await Label.create({
-                name,
-                color,
-            })
-            return res.json(label)
+            const label = await labelService.create(name, color)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -16,11 +14,8 @@ class LabelController {
     async createCardLabel(req, res, next) {
         try {
             const { cardId, labelId } = req.body
-            const label = await CardLabel.create({ cardId, labelId })
-            // const labels = await CardLabel.findAll({
-            //     order: [["id", "ASC"]],
-            // })
-            return res.json(label)
+            const label = await labelService.createCardLabel(cardId, labelId)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -28,18 +23,16 @@ class LabelController {
     async getOne(req, res, next) {
         try {
             const { id } = req.params
-            const label = await Label.findOne({
-                where: { id },
-            })
-            return res.json(label)
+            const label = await labelService.getOne(id)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
     }
     async getAll(req, res, next) {
         try {
-            const labels = await Label.findAll()
-            return res.json(labels)
+            const labels = await labelService.getAll()
+            return res.json({ labels })
         } catch (e) {
             return res.json(e.message)
         }
@@ -48,13 +41,8 @@ class LabelController {
         try {
             const { id } = req.params
             const { name, color } = req.body
-            const label = await Label.findByPk(id)
-            if (label) {
-                ;(label.name = name), (label.color = color), await label.save()
-                return res.json(label)
-            } else {
-                return res.status(404).send("Label not found")
-            }
+            const label = await labelService.updateOne(name, color, id)
+            return res.json({ label })
         } catch (e) {
             return res.json(e.message)
         }
@@ -62,7 +50,7 @@ class LabelController {
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params
-            await Label.destroy({ where: { id } })
+            await labelService.deleteOne(id)
             return res.json(`${id} deleted`)
         } catch (e) {
             return res.json(e.message)
@@ -71,10 +59,8 @@ class LabelController {
     async deleteCardLabel(req, res, next) {
         try {
             const { labelId, cardId } = req.body
-            const label = await CardLabel.destroy({
-                where: { labelId, cardId },
-            })
-            return res.json(`${label} deleted successfuly`)
+            await labelService.deleteCardLabel(labelId, cardId)
+            return res.json(`${(labelId, cardId)} deleted successfuly`)
         } catch (e) {
             return res.json(e.message)
         }

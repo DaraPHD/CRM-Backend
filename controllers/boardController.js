@@ -1,143 +1,41 @@
-const { Board, Column, Card, Label, CardLabel } = require("../models/models")
-const { Op } = require("sequelize")
+const boardService = require("../services/boardService");
 
 class BoardController {
     async create(req, res, next) {
         try {
-            const { name } = req.body
-            const board = await Board.create({
-                name,
-            })
-            return res.json(board)
+            const { name } = req.body;
+            const board = await boardService.create(name);
+            return res.json({ board });
         } catch (e) {
-            return res.json(e.message)
+            return res.json(e.message);
         }
     }
-    async getAll(req, res, next) {
+    async getBoard(req, res, next) {
         try {
-            const { id } = req.params
-            const board = await Board.findOne({
-                where: { id },
-                include: [
-                    {
-                        model: Column,
-                        as: "column",
-                        include: [
-                            {
-                                model: Card,
-                                as: "card",
-                                include: [
-                                    {
-                                        model: Label,
-                                        as: "label",
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-                order: [
-                    ["id", "ASC"],
-                    [Column, "id", "ASC"],
-                    [Column, Card, "id", "ASC"],
-                    [Column, Card, Label, "id", "ASC"],
-                ],
-            })
-            return res.json(board)
+            const { id } = req.params;
+            const board = await boardService.getBoard(id);
+            return res.json({ board });
         } catch (e) {
-            return res.json(e.message)
+            return res.json({ message: "Internal server error" });
         }
     }
-
     async searchCard(req, res, next) {
         try {
-            const { fullname } = req.query
-            const where = {}
-            let boards
-            if (fullname) {
-                where.fullname = { [Op.iLike]: `%${fullname}%` }
-                boards = await Board.findOne({
-                    where: { id: 1 },
-                    include: [
-                        {
-                            model: Column,
-                            as: "column",
-                            include: [
-                                {
-                                    model: Card,
-                                    as: "card",
-                                    where,
-                                    include: [
-                                        {
-                                            model: Label,
-                                            as: "label",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                    order: [
-                        ["id", "ASC"],
-                        [Column, "id", "ASC"],
-                    ],
-                })
-
-                return res.json(boards)
-            } else {
-                boards = await Board.findOne({
-                    where: { id: 1 },
-                    include: [
-                        {
-                            model: Column,
-                            as: "column",
-                            include: [
-                                {
-                                    model: Card,
-                                    as: "card",
-                                    include: [
-                                        {
-                                            model: Label,
-                                            as: "label",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                    order: [
-                        ["id", "ASC"],
-                        [Column, "id", "ASC"],
-                        [Column, Card, "id", "ASC"],
-                        [Column, Card, Label, "id", "ASC"],
-                    ],
-                })
-                return res.json(boards)
-            }
+            const { title } = req.query;
+            const searchResult = await boardService.searchCard(title);
+            return res.json({ searchResult });
         } catch (e) {
-            return res.json(e.message)
+            return res.json(e.message);
         }
     }
-    async updateCards(req, res, next) {
-        //     try {
-        //         const {columnId} = req.params
-        //         const {name, surname, client, is_paid} = req.body
-        //     const cards = await Card.update(
-        //         {name,
-        //         surname,
-        //         client,
-        //         is_paid,
-        //         columnId
-        //     },
-        //     {where: { columnId },
-        // returning: true
-        // }
-        //     )
-        //     return res.json(cards[1])
-        //     } catch (e) {
-        //     return res.json(e.message)
-        //     }
+    async delete(req, res, next) {
+        try {
+            const { id } = req.params;
+            const board = await boardService.delete(id);
+            return res.json({ board });
+        } catch (e) {
+            return res.json(e.message);
+        }
     }
 }
-
-module.exports = new BoardController()
+module.exports = new BoardController();

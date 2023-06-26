@@ -1,25 +1,11 @@
-const { Card, Column, Label, UserCard } = require("../models/models")
+const cardService = require("../services/cardService")
 
 class CardController {
     async create(req, res, next) {
         try {
-            const {
-                fullname,
-                client,
-                is_paid,
-                columnId,
-                recruiter_name,
-                title,
-            } = req.body
-            const card = await Card.create({
-                fullname,
-                client,
-                is_paid,
-                columnId,
-                recruiter_name,
-                title,
-            })
-            return res.json(card)
+            const { columnId, title } = req.body
+            const card = await cardService.create(columnId, title)
+            return res.json({ card })
         } catch (e) {
             return res.json(e.message)
         }
@@ -27,24 +13,16 @@ class CardController {
     async getOne(req, res, next) {
         try {
             const { id } = req.params
-            const card = await Card.findOne({
-                where: { id },
-                include: [
-                    {
-                        model: Label,
-                        as: "label",
-                    },
-                ],
-            })
-            return res.json(card)
+            const card = await cardService.getOne(id)
+            return res.json({ card })
         } catch (e) {
             return res.json(e.message)
         }
     }
     async getAll(req, res, next) {
         try {
-            const cards = await Card.findAll()
-            return res.json(cards)
+            const cards = await cardService.getAll()
+            return res.json({ cards })
         } catch (e) {
             return res.json(e.message)
         }
@@ -53,27 +31,9 @@ class CardController {
     async updateOne(req, res, next) {
         try {
             const { id } = req.params
-            const {
-                fullname,
-                client,
-                is_paid,
-                columnId,
-                recruiter_name,
-                title,
-            } = req.body
-            const card = await Card.findByPk(id)
-            if (card) {
-                ;(card.fullname = fullname),
-                    (card.client = client),
-                    (card.is_paid = is_paid),
-                    (card.columnId = columnId),
-                    (card.recruiter_name = recruiter_name),
-                    (card.title = title),
-                    await card.save()
-                return res.json(card)
-            } else {
-                return res.status(404).send("User not found") // change to custom middleware
-            }
+            const { columnId, title } = req.body
+            const card = await cardService.updateOne(id, columnId, title)
+            return res.json({ card })
         } catch (e) {
             return res.json(e.message)
         }
@@ -81,8 +41,8 @@ class CardController {
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params
-            const card = await Card.destroy({ where: { id } })
-            return res.json({ message: `${card} deleted` })
+            await cardService.deleteOne(id)
+            return res.json(`${id}`)
         } catch (e) {
             res.json(e.message)
         }
@@ -90,12 +50,8 @@ class CardController {
     async getCardFromColumn(req, res, next) {
         try {
             const { columnId } = req.params
-            const cards = await Card.findAll({
-                where: { columnId },
-            })
-            const column = await Column.findAll({
-                where: { id: columnId },
-            })
+            const cards = await cardService.getCardFromColumn(columnId)
+            const column = await cardService.getCardFromColumn(columnId)
             return res.json({ cards, column })
         } catch (e) {
             return res.json(e.message)
@@ -104,8 +60,8 @@ class CardController {
     async createUserCard(req, res, next) {
         try {
             const { userId, cardId } = req.body
-            const relation = await UserCard.create({ cardId, userId })
-            return res.json(relation)
+            const relation = await cardService.createUserCard(userId, cardId)
+            return res.json({ relation })
         } catch (e) {
             return res.json(e.message)
         }

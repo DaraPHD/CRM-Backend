@@ -1,7 +1,6 @@
 const { User } = require("../models/models")
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
-// const mailService = require("./mailService");
 const tokenService = require("./tokenService")
 const UserDto = require("../dtos/userDto")
 const ApiError = require("../error/apiError")
@@ -29,11 +28,6 @@ class UserService {
         const userDto = new UserDto(user) // id, email, isActivated
         const tokens = tokenService.generateTokens({ ...userDto })
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
-
-        // await mailService.sendActivationMail(
-        //     email,
-        //     `${process.env.API_URL}/api/user/activate/${activationLink}`
-        // );
 
         return { ...tokens, user: userDto }
     }

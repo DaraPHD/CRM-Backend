@@ -127,17 +127,6 @@ Achievement.belongsToMany(User, {
     through: UserAchievement,
 });
 
-// Color.sync({force: true})
-// console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
-// User.sync({ alter: true })
-// Token.sync({alter: true})
-// Card.sync({ alter: true });
-// UserCard.sync()
-// Commentary.sync({ alter: true })
-// Board.sync({ alter: true});
-// Column.sync({ alter: true });
-// Label.sync({ alter: true })
-
 module.exports = {
     User,
     Card,

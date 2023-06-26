@@ -1,10 +1,10 @@
-const Router = require("express")
-const router = new Router()
-const boardController = require("../controllers/boardController")
+const Router = require("express");
+const router = new Router();
+const boardController = require("../controllers/boardController");
 
-router.post("/", boardController.create)
-router.get("/:id", boardController.getAll)
-router.get("/", boardController.searchCard)
-router.get("/:columnId/cards", boardController.updateCards)
+router.post("/", boardController.create);
+router.get("/:id", boardController.getBoard);
+router.get("/", boardController.searchCard);
+router.delete("/delete/:id", boardController.delete);
 
-module.exports = router
+module.exports = router;

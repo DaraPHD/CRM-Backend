@@ -3,7 +3,6 @@ const { Token } = require("../models/models")
 class TokenController {
     async getAll(req, res, next) {
         try {
-            // res.json(["1234", "123123"]);
         } catch (e) {
             next(e)
         }
@@ -26,5 +25,3 @@ class TokenController {
 }
 
 module.exports = new TokenController()
-
-// initial commit try

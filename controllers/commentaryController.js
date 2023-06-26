@@ -1,15 +1,15 @@
-const { Commentary, User } = require("../models/models")
+const commentaryService = require("../services/commentaryService")
 
 class CommentaryController {
     async create(req, res, next) {
         try {
             const { content, cardId, userId } = req.body
-            const commentary = await Commentary.create({
+            const commentary = await commentaryService.create(
                 content,
                 cardId,
-                userId,
-            })
-            return res.json(commentary)
+                userId
+            )
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -17,15 +17,15 @@ class CommentaryController {
 
     async createReply(req, res, next) {
         try {
-            const { userId, content, parent_id, username } = req.body
+            const { userId, content, parentId, username } = req.body
             const { id } = req.params
-            const reply = await Commentary.create({
+            const reply = await commentaryService.createReply(
                 userId,
                 content,
-                commentaryId: id,
-                parent_id,
+                parentId,
                 username,
-            })
+                id
+            )
             return res.json({ reply })
         } catch (e) {
             return res.json(e.message)
@@ -34,10 +34,8 @@ class CommentaryController {
     async getOne(req, res, next) {
         try {
             const { id } = req.params
-            const commentary = await Commentary.findOne({
-                where: { id },
-            })
-            return res.json(commentary)
+            const commentary = await commentaryService.getOne(id)
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -46,16 +44,13 @@ class CommentaryController {
         try {
             const { id } = req.params
             const { content, cardId, userId } = req.body
-            const commentary = await Commentary.findByPk(id)
-            if (commentary) {
-                ;(commentary.content = content),
-                    (commentary.cardId = cardId),
-                    (commentary.userId = userId)
-                await commentary.save()
-                return res.json(commentary)
-            } else {
-                return res.status(404).send("Commentary not found")
-            }
+            const commentary = await commentaryService.updateOne(
+                content,
+                cardId,
+                userId,
+                id
+            )
+            return res.json({ commentary })
         } catch (e) {
             return res.json(e.message)
         }
@@ -63,8 +58,8 @@ class CommentaryController {
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params
-            const commentary = await Commentary.destroy({ where: { id } })
-            return res.json({ message: `${commentary} deleted` })
+            await commentaryService.deleteOne(id)
+            return res.json(`${id} удален`)
         } catch (e) {
             return res.json(e.message)
         }
@@ -72,25 +67,10 @@ class CommentaryController {
     async getAllCardCommentary(req, res, next) {
         try {
             const { id } = req.params
-            const commentaries = await Commentary.findAll({
-                where: { cardId: id },
-                include: [
-                    {
-                        model: User,
-                    },
-                    {
-                        model: Commentary,
-                        as: "replies",
-                        include: [
-                            {
-                                model: User,
-                            },
-                        ],
-                    },
-                ],
-                order: [["id", "DESC"]],
-            })
-            return res.json(commentaries)
+            const commentaries = await commentaryService.getAllCardCommentary(
+                id
+            )
+            return res.json({ commentaries })
         } catch (e) {
             return res.json(e.message)
         }

@@ -14,6 +14,9 @@ const colorHandler = require("./soketHandlers/colorHandler");
 const commentaryHandler = require("./soketHandlers/commentaryHandler");
 const labelHandler = require("./soketHandlers/labelHandler");
 const logger = require("./utils/logger.js");
+const {
+    middleware: incomingRequestMiddleware,
+} = require("./middlewares/incomingRequestMiddleware.js");
 
 const PORT = process.env.PORT || 5000;
 const API_URL = process.env.API_URL;
@@ -48,6 +51,7 @@ app.use(
     })
 );
 
+app.use(incomingRequestMiddleware);
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(cookieParser());

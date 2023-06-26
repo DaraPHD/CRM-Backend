@@ -2,6 +2,8 @@ const winston = require("winston");
 const { MESSAGE } = require("triple-beam");
 const jsonStringify = require("fast-safe-stringify");
 
+process.env.TZ = "Europe/Moscow";
+
 const customFormat = winston.format((info) => {
     const stringifiedRest = jsonStringify({
         ...info,
@@ -25,7 +27,7 @@ const customFormat = winston.format((info) => {
 const logger = winston.createLogger({
     format: winston.format.combine(
         winston.format.errors({ stack: true }),
-        winston.format.timestamp()
+        winston.format.timestamp({ format: "DD-MM-YYYY HH:mm:ss" })
     ),
     transports: [
         new winston.transports.Console({

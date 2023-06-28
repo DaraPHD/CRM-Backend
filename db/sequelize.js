@@ -5,16 +5,7 @@ const sequelizeOptions = require("./sequelize-options.js");
 const sequelize = new Sequelize(sequelizeOptions.development);
 module.exports.sequelize = sequelize;
 
-const models = {
-    // AreaExperience: require("../models/area_experience.js"),
-    // AreaKeyword: require("../models/area_keyword.js"),
-    // Area: require("../models/area.js"),
-    // Education: require("../models/education.js"),
-    // Experience: require("../models/experience.js"),
-    // KeywordExperience: require("../models/keyword_experience.js"),
-    // Keyword: require("../models/keyword.js"),
-    // Person: require("../models/person.js"),
-};
+const models = {};
 
 let initialized = false;
 module.exports.init = async function init() {

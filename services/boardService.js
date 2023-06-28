@@ -9,7 +9,7 @@ class BoardService {
             });
             return board;
         } catch (e) {
-            return "Ошибка создания Board";
+            return e;
         }
     }
     async getBoard(id) {

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-const pg = require("./db/sequelize.js");
+// const pg = require("./db/sequelize.js");
+const sequelize = require("./db");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -13,6 +14,7 @@ const cardHandler = require("./soketHandlers/cardHandler");
 const colorHandler = require("./soketHandlers/colorHandler");
 const commentaryHandler = require("./soketHandlers/commentaryHandler");
 const labelHandler = require("./soketHandlers/labelHandler");
+const userBoardHandler = require("./soketHandlers/userBoardHandler");
 const logger = require("./utils/logger.js");
 const {
     middleware: incomingRequestMiddleware,
@@ -40,6 +42,7 @@ const onConnection = (socket) => {
     colorHandler(io, socket);
     commentaryHandler(io, socket);
     labelHandler(io, socket);
+    userBoardHandler(io, socket);
 };
 
 io.on("connection", onConnection);
@@ -62,7 +65,10 @@ app.use(errorMiddleware);
 const start = async () => {
     try {
         logger.info("Initializing database...");
-        await pg.init();
+        await sequelize.authenticate();
+        await sequelize.sync();
+        // await pg.init();
+
         logger.info("initializing app routes...");
         httpServer.listen(PORT, () => {
             console.log(`Server started at  ${API_URL}`);

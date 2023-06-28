@@ -1,4 +1,3 @@
-const { Card } = require("../models/models.js");
 const columnService = require("../services/columnService.js");
 
 module.exports = (io, socket) => {
@@ -29,9 +28,13 @@ module.exports = (io, socket) => {
             return { columnEvent };
         } catch (e) {}
     };
-    const columnUpdate = async ({ name, boardId }) => {
+    const columnUpdate = async ({ id, name, boardId }) => {
         try {
-            const columnEvent = await columnService.updateOne(name, boardId);
+            const columnEvent = await columnService.updateOne(
+                id,
+                name,
+                boardId
+            );
             console.log(columnEvent);
             io.emit("columnUpdated", columnEvent);
             return { columnEvent };

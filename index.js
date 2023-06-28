@@ -65,13 +65,13 @@ app.use(errorMiddleware);
 const start = async () => {
     try {
         logger.info("Initializing database...");
+        logger.info("Checking database connection...");
         await sequelize.authenticate();
-        await sequelize.sync();
+        logger.info("Initializing models...");
         // await pg.init();
-
         logger.info("initializing app routes...");
         httpServer.listen(PORT, () => {
-            console.log(`Server started at  ${API_URL}`);
+            logger.info(`Server started at  ${API_URL}`);
         });
     } catch (e) {
         console.log(e.message);

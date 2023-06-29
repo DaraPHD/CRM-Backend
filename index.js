@@ -66,9 +66,9 @@ const start = async () => {
     try {
         logger.info("Initializing database...");
         logger.info("Checking database connection...");
+        logger.info("Initializing models...");
         await sequelize.sync();
         await sequelize.authenticate();
-        logger.info("Initializing models...");
         // await pg.init();
         logger.info("initializing app routes...");
         httpServer.listen(PORT, () => {

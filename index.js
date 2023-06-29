@@ -66,6 +66,7 @@ const start = async () => {
     try {
         logger.info("Initializing database...");
         logger.info("Checking database connection...");
+        await sequelize.sync();
         await sequelize.authenticate();
         logger.info("Initializing models...");
         // await pg.init();

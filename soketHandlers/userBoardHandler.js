@@ -15,7 +15,7 @@ module.exports = (io, socket) => {
 
     const userBoardGetAll = async () => {
         try {
-            const relationEvent = await userBoardService.getall();
+            const relationEvent = await userBoardService.getAll();
 
             io.emit("relationReceived", relationEvent);
             return { relationEvent };

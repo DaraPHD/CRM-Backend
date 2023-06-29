@@ -77,6 +77,11 @@ const Board = sequelize.define("board", {
     name: { type: DataTypes.STRING, allowNull: true, unique: true },
 });
 
+const Background = sequelize.define("background", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    image_code: { type: DataTypes.STRING, allowNull: true },
+});
+
 const UserCard = sequelize.define("user_card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
@@ -131,6 +136,9 @@ Board.belongsToMany(User, {
     as: "board",
 });
 
+UserBoard.hasMany(Background, { as: "background" });
+Background.belongsTo(UserBoard);
+
 User.belongsToMany(Card, { through: UserCard, as: "card" });
 
 Card.belongsToMany(User, { through: UserCard, as: "user" });
@@ -143,6 +151,10 @@ Achievement.belongsToMany(User, {
     through: UserAchievement,
 });
 
+// Background.sync();
+// Board.sync();
+// UserBoard.sync();
+
 module.exports = {
     User,
     UserBoard,
@@ -154,6 +166,7 @@ module.exports = {
     UserAchievement,
     Token,
     Board,
+    Background,
     Color,
     UserCard,
     CardLabel,

@@ -10,6 +10,7 @@ const tokenRouter = require("./tokenRouter");
 const boardRouter = require("./boardRouter");
 const colorRouter = require("./colorRouter");
 const userBoardRouter = require("./userBoardRouter");
+const backgoroundRouter = require("./backgroundRouter");
 
 router.use("/achievement", achievementRouter);
 router.use("/card", cardRouter);
@@ -21,5 +22,6 @@ router.use("/token", tokenRouter);
 router.use("/board", boardRouter);
 router.use("/color", colorRouter);
 router.use("/participants", userBoardRouter);
+router.use("/background", backgoroundRouter);
 
 module.exports = router;

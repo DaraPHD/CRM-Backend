@@ -1,8 +1,10 @@
-const Sequelize = require("sequelize");
-const pg = require("../db/sequelize.js");
-const { DataTypes } = Sequelize;
+// const Sequelize = require("sequelize");
+// const pg = require("../db/sequelize.js");
+// const { DataTypes } = Sequelize;
 
-const User = pg.sequelize.define("user", {
+const sequelize = require("../db.js");
+const { DataTypes } = require("sequelize");
+const User = sequelize.define("user", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
     surname: { type: DataTypes.STRING, allowNull: false },
@@ -24,7 +26,7 @@ const User = pg.sequelize.define("user", {
     isActivated: { type: DataTypes.STRING },
 });
 
-const Token = pg.sequelize.define("token", {
+const Token = sequelize.define("token", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     refreshToken: {
         type: DataTypes.STRING(1000),
@@ -33,17 +35,17 @@ const Token = pg.sequelize.define("token", {
     },
 });
 
-const Achievement = pg.sequelize.define("achievement", {
+const Achievement = sequelize.define("achievement", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING, allowNull: false },
 });
 
-const UserAchievement = pg.sequelize.define("user_achievement", {
+const UserAchievement = sequelize.define("user_achievement", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const Card = pg.sequelize.define("card", {
+const Card = sequelize.define("card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING(1000), allowNull: false },
     fullname: { type: DataTypes.STRING, allowNull: true },
@@ -52,40 +54,49 @@ const Card = pg.sequelize.define("card", {
     recruiter_name: { type: DataTypes.STRING(100), allowNull: true },
 });
 
-const Column = pg.sequelize.define("column", {
+const Column = sequelize.define("column", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Label = pg.sequelize.define("label", {
+const Label = sequelize.define("label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: true },
     color: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Commentary = pg.sequelize.define("commentary", {
+const Commentary = sequelize.define("commentary", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.TEXT },
     username: { type: DataTypes.STRING },
     parentId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
-const Board = pg.sequelize.define("board", {
+const Board = sequelize.define("board", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: true, unique: true },
 });
 
-const UserCard = pg.sequelize.define("user_card", {
+const Background = sequelize.define("background", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    image_code: { type: DataTypes.STRING, allowNull: true },
+});
+
+const UserCard = sequelize.define("user_card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const CardLabel = pg.sequelize.define("card_label", {
+const CardLabel = sequelize.define("card_label", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const Color = pg.sequelize.define("color", {
+const Color = sequelize.define("color", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     color_code: { type: DataTypes.STRING, allowNull: false },
+});
+
+const UserBoard = sequelize.define("user_board", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
 User.hasOne(Token);
@@ -115,6 +126,19 @@ Card.belongsToMany(Label, {
     as: "label",
 });
 
+User.belongsToMany(Board, {
+    through: UserBoard,
+    as: "participant",
+});
+
+Board.belongsToMany(User, {
+    through: UserBoard,
+    as: "board",
+});
+
+UserBoard.hasMany(Background, { as: "background" });
+Background.belongsTo(UserBoard);
+
 User.belongsToMany(Card, { through: UserCard, as: "card" });
 
 Card.belongsToMany(User, { through: UserCard, as: "user" });
@@ -127,19 +151,13 @@ Achievement.belongsToMany(User, {
     through: UserAchievement,
 });
 
-// Color.sync({force: true})
-// console.log(`!!!!! ${User.getAttributes().role.values} !!!!!`)
-// User.sync({ alter: true })
-// Token.sync({alter: true})
-// Card.sync({ alter: true });
-// UserCard.sync()
-// Commentary.sync({ alter: true })
-// Board.sync({ alter: true});
-// Column.sync({ alter: true });
-// Label.sync({ alter: true })
+// Background.sync();
+// Board.sync();
+// UserBoard.sync();
 
 module.exports = {
     User,
+    UserBoard,
     Card,
     Column,
     Label,
@@ -148,6 +166,7 @@ module.exports = {
     UserAchievement,
     Token,
     Board,
+    Background,
     Color,
     UserCard,
     CardLabel,

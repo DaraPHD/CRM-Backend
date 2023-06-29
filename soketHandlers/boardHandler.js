@@ -24,11 +24,12 @@ module.exports = (io, socket) => {
         try {
             const boardEvent = await boardService.searchCard(title);
 
-            io.emit("boardSerched", boardEvent);
+            io.emit("boardSearched", boardEvent);
 
             return { boardEvent };
         } catch (e) {}
     };
+
     const boardDelete = async ({ id }) => {
         try {
             const boardEvent = await boardService.delete(id);
@@ -36,6 +37,7 @@ module.exports = (io, socket) => {
             return `Board succesfully deleted`;
         } catch (e) {}
     };
+
     socket.on("GET:BOARD", boardGet);
     socket.on("CREATE:BOARD", boardCreate);
     socket.on("SEARCH:BOARD", boardSearch);

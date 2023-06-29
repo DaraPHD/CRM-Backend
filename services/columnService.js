@@ -1,4 +1,4 @@
-const { Column } = require("../models/models")
+const { Column } = require("../models/models");
 
 class ColumnService {
     async create(name) {
@@ -6,53 +6,53 @@ class ColumnService {
             const column = await Column.create({
                 name,
                 boardId: 1,
-            })
+            });
 
-            return column
+            return column;
         } catch (e) {
-            return e
+            return e;
         }
     }
     async getOne(id) {
         try {
             const column = await Column.findOne({
                 where: { id },
-            })
+            });
 
-            return column
+            return column;
         } catch (e) {
-            return "Ошибка получения экземпляра Column"
+            return "Ошибка получения экземпляра Column";
         }
     }
     async getAll() {
         try {
-            const columns = await Column.findAll()
-            return columns
+            const columns = await Column.findAll();
+            return columns;
         } catch (e) {
-            return "Ошибка получения Column"
+            return "Ошибка получения Column";
         }
     }
     async updateOne(id, name, boardId) {
         try {
-            const column = await Column.findByPk(id)
+            const column = await Column.findByPk(id);
             if (column) {
-                column.name = name
-                column.boardId = boardId
-                await column.save()
-                return column
+                column.name = name;
+                column.boardId = boardId;
+                await column.save();
+                return column;
             }
         } catch (e) {
-            return "Ошибка обновления Column"
+            return e;
         }
     }
     async deleteOne(id) {
         try {
-            await Column.destroy({ where: { id } })
-            return `${id} deleted`
+            await Column.destroy({ where: { id } });
+            return `${id} deleted`;
         } catch (e) {
-            return "Ошибка удаления Column"
+            return "Ошибка удаления Column";
         }
     }
 }
 
-module.exports = new ColumnService()
+module.exports = new ColumnService();

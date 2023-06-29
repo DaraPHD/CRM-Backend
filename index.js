@@ -15,6 +15,7 @@ const colorHandler = require("./soketHandlers/colorHandler");
 const commentaryHandler = require("./soketHandlers/commentaryHandler");
 const labelHandler = require("./soketHandlers/labelHandler");
 const userBoardHandler = require("./soketHandlers/userBoardHandler");
+const backgoroundHandler = require("./soketHandlers/backgroundHandler");
 const logger = require("./utils/logger.js");
 const {
     middleware: incomingRequestMiddleware,
@@ -43,6 +44,7 @@ const onConnection = (socket) => {
     commentaryHandler(io, socket);
     labelHandler(io, socket);
     userBoardHandler(io, socket);
+    backgoroundHandler(io, socket);
 };
 
 io.on("connection", onConnection);

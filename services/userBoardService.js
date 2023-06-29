@@ -13,9 +13,17 @@ class UserBoardService {
         }
     }
 
-    async getall() {
+    async getAll() {
         try {
-            const participants = UserBoard.findAll();
+            const participants = User.findAll({
+                include: [
+                    {
+                        model: Board,
+                        through: UserBoard,
+                        as: "participant",
+                    },
+                ],
+            });
             return participants;
         } catch (e) {}
     }

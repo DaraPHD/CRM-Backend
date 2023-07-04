@@ -12,6 +12,7 @@ class CardService {
             return e;
         }
     }
+
     async getOne(id) {
         try {
             const card = await Card.findOne({
@@ -28,6 +29,7 @@ class CardService {
             return "Ошибка получения  одного экземпляра Card";
         }
     }
+
     async getAll() {
         try {
             const cards = await Card.findAll();
@@ -50,14 +52,7 @@ class CardService {
             return e;
         }
     }
-    async deleteOne(id) {
-        try {
-            await Card.destroy({ where: { id } });
-            return `${id} deleted`;
-        } catch (e) {
-            return "Ошибка удаления";
-        }
-    }
+
     async getCardFromColumn(columnId) {
         try {
             const cards = await Card.findAll({
@@ -71,12 +66,41 @@ class CardService {
             return "Ошибка получения Card из Column";
         }
     }
+
     async createUserCard(userId, cardId) {
         try {
             const relation = await UserCard.create({ cardId, userId });
             return relation;
         } catch (e) {
             return "Ошибка создания связи UserCard";
+        }
+    }
+
+    async archive(id) {
+        try {
+            const card = await Card.findByPk(id);
+            if (!card) {
+                throw new Error("Card not found");
+            }
+            card.is_archived = true;
+            await card.save();
+            return card;
+        } catch (e) {
+            return e;
+        }
+    }
+
+    async deleteOne(id) {
+        try {
+            const card = await Card.findByPk(id);
+            if (card.is_archived === true) {
+                await Card.destroy({ where: { id } });
+                return `Card deleted`;
+            } else {
+                throw new Error("Can't delete unarchived card");
+            }
+        } catch (e) {
+            return e.message || "Ошибка удаления";
         }
     }
 }

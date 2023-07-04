@@ -48,10 +48,7 @@ const UserAchievement = sequelize.define("user_achievement", {
 const Card = sequelize.define("card", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING(1000), allowNull: false },
-    fullname: { type: DataTypes.STRING, allowNull: true },
-    client: { type: DataTypes.STRING, allowNull: true },
-    is_paid: { type: DataTypes.BOOLEAN, defaultValue: false },
-    recruiter_name: { type: DataTypes.STRING(100), allowNull: true },
+    is_archived: { type: DataTypes.BOOLEAN, defaultValue: false },
 });
 
 const Column = sequelize.define("column", {
@@ -152,7 +149,7 @@ Achievement.belongsToMany(User, {
 });
 
 // Background.sync();
-// Board.sync();
+// Card.sync();
 // UserBoard.sync();
 
 module.exports = {

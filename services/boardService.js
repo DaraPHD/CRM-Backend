@@ -148,7 +148,7 @@ class BoardService {
             Вы были приглашены пользователем ${senderUser.name} ${senderUser.surname} к доске ${boardName}.<br>
             Присоединяйтесь для совместной работы.<br>
             <div style="display: inline-block; margin-top: 20px;">
-            <a href="${boardURL}" style="display: inline-block; background-color: #00FF00; color: #FFFFFF; padding: 10px 20px; border-radius: 10px; text-decoration: none;">
+            <a href="${boardURL}" style="display: inline-block; background: linear-gradient(to right, #007bff, #00ffff); color: #FFFFFF; padding: 10px 20px; border-radius: 10px; text-decoration: none;">
             Принять приглашение
             </a>
             </div>

@@ -33,11 +33,12 @@ class BoardController {
 
     async sendInvintation(req, res, next) {
         try {
-            const { id, senderUser, receiverUser } = req.body;
+            const { id, senderUser, receiverUser, boardName } = req.body;
             const result = await boardService.sendInvintation(
                 id,
                 senderUser,
-                receiverUser
+                receiverUser,
+                boardName
             );
             return res.json({ result });
         } catch (e) {

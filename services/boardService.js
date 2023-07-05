@@ -135,17 +135,31 @@ class BoardService {
         }
     }
 
-    async sendInvintation(id, senderUser, receiverUser) {
+    async sendInvintation(id, senderUser, receiverUser, boardName) {
         try {
-            const board = await this.getBoard(id);
-            const invintationMessage = `Вы были приглашены пользователем ${
-                (senderUser.name, senderUser.surname)
-            } к доске ${board.name}. Присоединяйтесь для совместной работы`;
+            await this.getBoard(id);
+            const boardURL = "http://10.66.66.20:3001/boards/" + id;
+            const invintationMessage = `
+            <div style="text-align: center; padding: 10px;">
+            <div style="display: inline-block; border: 1px solid #000000; padding: 10px; background-color: #f0f0f0;">
+            <div style="background: linear-gradient(to right, #007bff, #00ffff); display: inline-block; padding: 5px 10px; border-radius: 5px;">
+            <span style="color: #ffffff; font-weight: bold;">RONOVE</span>
+            </div><br>
+            Вы были приглашены пользователем ${senderUser.name} ${senderUser.surname} к доске ${boardName}.<br>
+            Присоединяйтесь для совместной работы.<br>
+            <div style="display: inline-block; margin-top: 20px;">
+            <a href="${boardURL}" style="display: inline-block; background-color: #00FF00; color: #FFFFFF; padding: 10px 20px; border-radius: 10px; text-decoration: none;">
+            Принять приглашение
+            </a>
+            </div>
+            </div>
+            </div>
+            `;
             const mailOptions = {
                 from: "midnightdidik@gmail.com",
                 to: receiverUser.email,
                 subject: "Приглашение к доске",
-                text: invintationMessage,
+                html: invintationMessage,
             };
             await transporter.sendMail(mailOptions);
             return "Invitation sent successfully";

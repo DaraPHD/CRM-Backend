@@ -35,4 +35,9 @@ module.exports = {
         "SASDAasdasdwerwemkcvkl1234-sdasda-sxcvmnklty-1242345jnkmzxkn!!sfkjmncmksf%^$%^456"
     ),
     CLIENT_URL: getValue("CLIENT_URL", "http://10.66.66.20:3001"),
+
+    SMTP_HOST: getValue("SMTP_HOST", "smtp.gmail.com"),
+    SMTP_PORT: getValue("SMTP_PORT", "587"),
+    SMTP_USER: getValue("SMTP_USER", "midnightdidik@gmail.com"),
+    SMTP_PASS: getValue("SMTP_PASS", "jzmrukmwvemdzkpl"),
 };

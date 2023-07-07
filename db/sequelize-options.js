@@ -11,6 +11,9 @@ const options = {
     sync: true,
     logging: (...args) => logger.info(...args),
     benchmark: true,
+    migrationStorage: "sequelize",
+    seederStorage: "sequelize",
+    migrationStorageTableName: "migrations",
 };
 
 module.exports = {

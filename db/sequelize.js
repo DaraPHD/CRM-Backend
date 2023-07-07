@@ -20,4 +20,8 @@ module.exports.init = async function init() {
     });
 
     logger.info("Initializing models...");
+    Object.keys(models).forEach((modelName) => {
+        const model = models[modelName];
+        model.associate(models);
+    });
 };

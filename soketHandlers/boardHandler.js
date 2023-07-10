@@ -20,6 +20,25 @@ module.exports = (io, socket) => {
         } catch (e) {}
     };
 
+    const boardInvintation = async ({
+        id,
+        senderUser,
+        receiverUser,
+        boardName,
+    }) => {
+        try {
+            const boardEvent = await boardService.sendInvintation(
+                id,
+                senderUser,
+                receiverUser,
+                boardName
+            );
+
+            io.emit("invintationSent", boardEvent);
+            return { boardEvent };
+        } catch (e) {}
+    };
+
     const boardSearch = async ({ title }) => {
         try {
             const boardEvent = await boardService.searchCard(title);
@@ -42,4 +61,5 @@ module.exports = (io, socket) => {
     socket.on("CREATE:BOARD", boardCreate);
     socket.on("SEARCH:BOARD", boardSearch);
     socket.on("DELETE:BOARD", boardDelete);
+    socket.on("INVINTATION:BOARD", boardInvintation);
 };

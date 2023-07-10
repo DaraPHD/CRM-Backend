@@ -22,6 +22,15 @@ module.exports = (io, socket) => {
         } catch (e) {}
     };
 
+    const userBoardsGet = async ({ userId }) => {
+        try {
+            const relationEvent = await userBoardService.getUserBoards(userId);
+
+            io.emit("userBoardsReceived", relationEvent);
+            return { relationEvent };
+        } catch (e) {}
+    };
+
     const userBoardDelete = async ({ id }) => {
         try {
             const relationEvent = await userBoardService.delete(id);
@@ -34,4 +43,5 @@ module.exports = (io, socket) => {
     socket.on("CREATE:RELATION", userBoardCreate);
     socket.on("GETALL:RELATION", userBoardGetAll);
     socket.on("DELETE:RELATION", userBoardDelete);
+    socket.on("GET:RELATION", userBoardsGet);
 };

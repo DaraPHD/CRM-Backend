@@ -4,8 +4,8 @@ class UserBoardController {
     async create(req, res, next) {
         try {
             const { userId, boardId } = req.body;
-            const userBoard = await userBoardService.create(userId, boardId);
-            return res.json({ userBoard });
+            const participant = await userBoardService.create(userId, boardId);
+            return res.json({ participant });
         } catch (e) {
             return res.json(e.message);
         }
@@ -13,8 +13,19 @@ class UserBoardController {
 
     async getAll(req, res, next) {
         try {
-            const participants = await userBoardService.getAll();
-            return res.json({ participants });
+            const participant = await userBoardService.getAll();
+            return res.json({ participant });
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async getUserBoards(req, res, next) {
+        try {
+            const { userId } = req.params;
+            console.log(userId);
+            const participant = await userBoardService.getUserBoards(userId);
+            return res.json({ participant });
         } catch (e) {
             return res.json(e.message);
         }

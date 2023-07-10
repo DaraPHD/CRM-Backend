@@ -5,6 +5,7 @@ const router = new Router();
 
 router.post("/", userBoardRouter.create);
 router.get("/", userBoardRouter.getAll);
+router.get("/:userId", userBoardRouter.getUserBoards);
 router.delete("/:id", userBoardRouter.delete);
 
 module.exports = router;

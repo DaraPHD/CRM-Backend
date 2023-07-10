@@ -13,6 +13,22 @@ class UserBoardService {
         }
     }
 
+    async getUserBoards(userId) {
+        try {
+            const user = await User.findOne({
+                where: { id: userId },
+                include: {
+                    model: Board,
+                    through: UserBoard,
+                    as: "boards",
+                },
+            });
+            return user;
+        } catch (e) {
+            return e;
+        }
+    }
+
     async getAll() {
         try {
             const participants = User.findAll({
@@ -20,7 +36,7 @@ class UserBoardService {
                     {
                         model: Board,
                         through: UserBoard,
-                        as: "participant",
+                        as: "boards",
                     },
                 ],
             });

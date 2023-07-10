@@ -125,12 +125,12 @@ Card.belongsToMany(Label, {
 
 User.belongsToMany(Board, {
     through: UserBoard,
-    as: "participant",
+    as: "boards",
 });
 
 Board.belongsToMany(User, {
     through: UserBoard,
-    as: "board",
+    as: "participant",
 });
 
 UserBoard.hasMany(Background, { as: "background" });

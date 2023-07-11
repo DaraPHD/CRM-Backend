@@ -29,12 +29,11 @@ class BackgroundService {
             return e;
         }
     }
-    async update(id, image_code, userBoardId) {
+    async update(id, image_code) {
         try {
             const backgoround = await Background.findByPk(id);
             if (backgoround) {
                 backgoround.image_code = image_code;
-                backgoround.userBoardId = userBoardId;
                 await backgoround.save();
                 return backgoround;
             }

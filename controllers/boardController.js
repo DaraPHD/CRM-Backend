@@ -13,8 +13,8 @@ class BoardController {
 
     async getBoard(req, res, next) {
         try {
-            const { id } = req.params;
-            const board = await boardService.getBoard(id);
+            const { userId, boardId } = req.params;
+            const board = await boardService.getBoard(userId, boardId);
             return res.json({ board });
         } catch (e) {
             return res.json({ message: "Internal server error" });
@@ -23,8 +23,9 @@ class BoardController {
 
     async searchCard(req, res, next) {
         try {
+            const { boardId } = req.params;
             const { title } = req.query;
-            const searchResult = await boardService.searchCard(title);
+            const searchResult = await boardService.searchCard(boardId, title);
             return res.json({ searchResult });
         } catch (e) {
             return res.json(e.message);

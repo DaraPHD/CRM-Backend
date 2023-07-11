@@ -1,11 +1,11 @@
 const { Column } = require("../models/models");
 
 class ColumnService {
-    async create(name) {
+    async create(name, boardId) {
         try {
             const column = await Column.create({
                 name,
-                boardId: 1,
+                boardId,
             });
 
             return column;

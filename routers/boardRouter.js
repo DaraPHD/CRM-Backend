@@ -3,8 +3,9 @@ const router = new Router();
 const boardController = require("../controllers/boardController");
 
 router.post("/", boardController.create);
-router.get("/:id", boardController.getBoard);
-router.get("/", boardController.searchCard);
+
+router.get("/:userId/:boardId", boardController.getBoard);
+router.get("/:boardId/", boardController.searchCard);
 router.post("/sendInvintation", boardController.sendInvintation);
 router.delete("/delete/:id", boardController.delete);
 

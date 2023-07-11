@@ -23,9 +23,30 @@ class UserBoardController {
     async getUserBoards(req, res, next) {
         try {
             const { userId } = req.params;
-            console.log(userId);
             const participant = await userBoardService.getUserBoards(userId);
             return res.json({ participant });
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+    async getUser(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const participant = await userBoardService.getUser(userId);
+            return res.json({ participant });
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+    async update(req, res, next) {
+        try {
+            const { userBoardId } = req.params;
+            const { backgroundId } = req.body;
+            const userBoard = await userBoardService.update(
+                userBoardId,
+                backgroundId
+            );
+            return res.json({ userBoard });
         } catch (e) {
             return res.json(e.message);
         }

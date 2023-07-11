@@ -1,4 +1,11 @@
-const { Board, Column, Card, Label, UserBoard } = require("../models/models");
+const {
+    Board,
+    Column,
+    Card,
+    Label,
+    UserBoard,
+    Background,
+} = require("../models/models");
 const { Op } = require("sequelize");
 const nodemailer = require("nodemailer");
 
@@ -31,40 +38,59 @@ class BoardService {
             return e;
         }
     }
-    async getBoard(id) {
+
+    async getBoard(userId, boardId) {
         try {
-            const board = await Board.findOne({
-                where: { id },
-                include: [
-                    {
-                        model: Column,
-                        as: "column",
-                        include: [
-                            {
-                                model: Card,
-                                as: "card",
-                                include: [
-                                    {
-                                        model: Label,
-                                        as: "label",
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-                order: [
-                    ["id", "ASC"],
-                    [Column, "id", "ASC"],
-                    [Column, Card, "id", "ASC"],
-                    [Column, Card, Label, "id", "ASC"],
-                ],
-            });
-            return board;
+            const [board, userBoard] = await Promise.all([
+                Board.findOne({
+                    where: { id: boardId },
+                    attributes: ["name"],
+                    include: [
+                        {
+                            model: Column,
+                            as: "column",
+                            attributes: ["id", "name"],
+                            include: [
+                                {
+                                    model: Card,
+                                    as: "card",
+                                    attributes: ["id", "title", "is_archived"],
+                                    include: [
+                                        {
+                                            model: Label,
+                                            attributes: ["id", "name", "color"],
+                                            as: "label",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                    order: [
+                        ["id", "ASC"],
+                        [Column, "id", "ASC"],
+                        [Column, Card, "id", "ASC"],
+                        [Column, Card, Label, "id", "ASC"],
+                    ],
+                }),
+                UserBoard.findOne({
+                    where: { userId, boardId },
+                    attributes: ["id"],
+                    include: [
+                        {
+                            model: Background,
+                            as: "background",
+                            attributes: ["id", "image_code"],
+                        },
+                    ],
+                }),
+            ]);
+            return { board, userBoard };
         } catch (e) {
-            return "Ошибка получения Board";
+            e;
         }
     }
+
     async sendInvintation(id, senderUser, receiverUser, boardName) {
         try {
             await this.getBoard(id);
@@ -114,14 +140,14 @@ class BoardService {
     //     },
     // };
 
-    async searchCard(title) {
+    async searchCard(boardId, title) {
         try {
             const where = {};
             let searchResult;
             if (title) {
                 where.title = { [Op.iLike]: `%${title}%` };
                 searchResult = await Board.findOne({
-                    where: { id: 1 },
+                    where: { id: boardId },
                     include: [
                         {
                             model: Column,
@@ -150,7 +176,7 @@ class BoardService {
                 return searchResult;
             } else {
                 searchResult = await Board.findOne({
-                    where: { id: 1 },
+                    where: { id: boardId },
                     include: [
                         {
                             model: Column,

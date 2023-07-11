@@ -1,4 +1,5 @@
-const { User, Board, UserBoard } = require("../models/models.js");
+const { User, Board, UserBoard, Background } = require("../models/models.js");
+const _ = require("lodash");
 
 class UserBoardService {
     async create(userId, boardId) {
@@ -14,19 +15,49 @@ class UserBoardService {
     }
 
     async getUserBoards(userId) {
+        const userBoards = await UserBoard.findAll({
+            where: { userId },
+            attributes: ["id", "userId", "boardId"],
+            include: {
+                model: Background,
+                as: "background",
+                attributes: ["id", "image_code"],
+            },
+        });
+
+        const userWithBoards = await Promise.all(
+            userBoards.map(async (userBoard) => {
+                const board = await Board.findByPk(userBoard.boardId, {
+                    attributes: ["id", "name"],
+                });
+                const user = await User.findByPk(userBoard.userId, {
+                    attributes: [
+                        "name",
+                        "surname",
+                        "position",
+                        "avatar",
+                        "email",
+                    ],
+                });
+                return {
+                    ...userBoard.toJSON(),
+                    board,
+                    user,
+                };
+            })
+        );
+        return userWithBoards;
+    }
+
+    async update(userBoardId, backgroundId) {
         try {
-            const user = await User.findOne({
-                where: { id: userId },
-                include: {
-                    model: Board,
-                    through: UserBoard,
-                    as: "boards",
-                },
+            const userBoard = await UserBoard.findOne({
+                where: { id: userBoardId },
             });
-            return user;
-        } catch (e) {
-            return e;
-        }
+            userBoard.backgroundId = backgroundId;
+            await userBoard.save();
+            return userBoard;
+        } catch (e) {}
     }
 
     async getAll() {

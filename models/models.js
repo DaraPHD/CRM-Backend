@@ -133,8 +133,8 @@ Board.belongsToMany(User, {
     as: "participant",
 });
 
-UserBoard.hasMany(Background, { as: "background" });
-Background.belongsTo(UserBoard);
+Background.hasMany(UserBoard, { as: "background" });
+UserBoard.belongsTo(Background);
 
 User.belongsToMany(Card, { through: UserCard, as: "card" });
 

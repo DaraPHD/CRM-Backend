@@ -30,4 +30,25 @@ const Model = pg.sequelize.define(
     }
 );
 
+Model.associate = (models) => {
+    Model.belongsToMany(models.User, {
+        through: "user_card",
+        foreignKey: "card_hash",
+        otherKey: "user_hash",
+    });
+    Model.hasMany(models.Commentary, {
+        foreignKey: "card_hash",
+        sourceKey: "hash",
+    });
+    Model.belongsToMany(models.Label, {
+        through: "card_label",
+        foreignKey: "card_hash",
+        otherKey: "label_hash",
+    });
+    Model.belongsTo(models.Column, {
+        foreignKey: "column_hash",
+        targetKey: "hash",
+    });
+};
+
 module.exports = Model;

@@ -2,6 +2,6 @@ const { resolve } = require("path");
 
 module.exports = {
     config: resolve(__dirname, "db/sequelize-options"),
-    "module-path": resolve(__dirname, "models"),
+    "models-path": resolve(__dirname, "models"),
     "migrations-path": resolve(__dirname, "migrations"),
 };

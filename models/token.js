@@ -26,4 +26,11 @@ const Model = pg.sequelize.define(
     }
 );
 
+Model.associate = (models) => {
+    Model.belongsTo(models.User, {
+        foreignKey: "user_hash",
+        sourceKey: "hash",
+    });
+};
+
 module.exports = Model;

@@ -10,9 +10,9 @@ module.exports = (io, socket) => {
         } catch (e) {}
     };
 
-    const boardGet = async ({ boardId }) => {
+    const boardGet = async ({ userId, boardId }) => {
         try {
-            const boardEvent = await boardService.getBoard(boardId);
+            const boardEvent = await boardService.getBoard(userId, boardId);
 
             io.emit("boardReceived", boardEvent);
 

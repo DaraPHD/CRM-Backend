@@ -29,4 +29,12 @@ const Model = pg.sequelize.define(
     }
 );
 
+Model.associate = (models) => {
+    Model.belongsToMany(models.User, {
+        through: "user_achievement",
+        foreignKey: "achievement_hash",
+        otherKey: "user_hash",
+    });
+};
+
 module.exports = Model;

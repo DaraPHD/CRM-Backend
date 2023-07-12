@@ -53,4 +53,30 @@ const Model = pg.sequelize.define(
     }
 );
 
+Model.associate = (models) => {
+    Model.hasOne(models.Token, {
+        foreignKey: "user_hash",
+        sourceKey: "hash",
+    });
+    Model.hasMany(models.Commentary, {
+        foreignKey: "user_hash",
+        sourceKey: "hash",
+    });
+    Model.belongsToMany(models.Board, {
+        through: "user_board",
+        foreignKey: "user_hash",
+        otherKey: "board_hash",
+    });
+    Model.belongsToMany(models.Card, {
+        through: "user_card",
+        foreignKey: "user_hash",
+        otherKey: "card_hash",
+    });
+    Model.belongsToMany(models.Achievement, {
+        through: "user_achievement",
+        foreignKey: "user_hash",
+        otherKey: "achievement_hash",
+    });
+};
+
 module.exports = Model;

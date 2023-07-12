@@ -25,4 +25,11 @@ const Model = pg.sequelize.define(
     }
 );
 
+Model.associate = (models) => {
+    Model.hasMany(models.UserBoard, {
+        foreignKey: "background_hash",
+        sourceKey: "hash",
+    });
+};
+
 module.exports = Model;

@@ -5,7 +5,7 @@ const path = require("path");
 let envData = {};
 
 try {
-    const rawData = fs.readFileSync(path.resolve(process.cwd(), "env"));
+    const rawData = fs.readFileSync(path.resolve(process.cwd(), ".env"));
     envData = dotenv.parse(rawData);
 } catch (error) {}
 

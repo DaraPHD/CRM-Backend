@@ -20,10 +20,6 @@ const Model = pg.sequelize.define(
             allowNull: false,
             type: DataTypes.STRING(255),
         },
-        parent_id: {
-            allowNull: true,
-            type: DataTypes.STRING(255),
-        },
     },
     {
         tableName: "commentary",
@@ -32,5 +28,28 @@ const Model = pg.sequelize.define(
         timestamp: false,
     }
 );
+
+// parent_hash: {
+//     allowNull: true,
+//     type: DataTypes.STRING(255),
+// },
+Model.associate = (models) => {
+    Model.belongsTo(models.Commentary, {
+        foreignKey: "parent_hash",
+        targetKey: "hash",
+    });
+    Model.hasMany(models.Commentary, {
+        foreignKey: "parent_hash",
+        targetKey: "hash",
+    });
+    Model.belongsTo(models.User, {
+        foreignKey: "user_hash",
+        targetKey: "hash",
+    });
+    Model.belongsTo(models.Card, {
+        foreignKey: "card_hash",
+        targetKey: "hash",
+    });
+};
 
 module.exports = Model;
